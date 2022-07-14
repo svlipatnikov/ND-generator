@@ -1,0 +1,10 @@
+{
+  "applications": ["DA", "CONF", "A661"],
+  "positions": {
+    "1": "DUOL",
+    "2": "DUIL",
+    "3": "DUCD",
+    "4": "DUIR",
+    "5": "DUOR"
+  }
+}

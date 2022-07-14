@@ -1,0 +1,73 @@
+{
+  "DA": {
+    "files": {
+      "sid": "./data/DA/KAHT.IDS21.14.021-15B Д(С) SID ФПО DA.xlsx",
+      "pdt": "./data/DA/Port_Definition_Table_DA_12А.xls"
+    },
+    "sheets": {
+      "messages": {
+        "file": "sid",
+        "name": "AFDX Message Definition",
+        "headerRowNumber": 9
+      },
+      "vls": {
+        "file": "sid",
+        "name": "AFDX VL Definition",
+        "headerRowNumber": 11
+      },
+      "ports": {
+        "file": "pdt",
+        "name": "Определение API портов",
+        "headerRowNumber": 6
+      }
+    }
+  },
+
+  "A661": {
+    "files": {
+      "sid": "./data/A661/KAHT.IDS21.14.020-10 Д(С) SID ФПО A661Server.xlsx",
+      "pdt": "./data/A661/IRDD для ФПО A661SERVER версия 09A.xls"
+    },
+    "sheets": {
+      "messages": {
+        "file": "sid",
+        "name": "AFDX Message Definition",
+        "headerRowNumber": 9
+      },
+      "vls": {
+        "file": "sid",
+        "name": "AFDX VL Definition",
+        "headerRowNumber": 11
+      },
+      "ports": {
+        "file": "pdt",
+        "name": "API Definition",
+        "headerRowNumber": 6
+      }
+    }
+  },
+
+  "CONF": {
+    "files": {
+      "sid": "./data/CONF/KAHT.IDS21.14.019-08 Д(С) SID ФПО CONF.xlsx",
+      "pdt": "./data/CONF/IRDD для ФПО CONF_08B.xls"
+    },
+    "sheets": {
+      "messages": {
+        "file": "sid",
+        "name": "AFDX Message Definition",
+        "headerRowNumber": 9
+      },
+      "vls": {
+        "file": "sid",
+        "name": "AFDX VL Definition",
+        "headerRowNumber": 11
+      },
+      "ports": {
+        "file": "pdt",
+        "name": "API Definition",
+        "headerRowNumber": 6
+      }
+    }
+  }
+}
