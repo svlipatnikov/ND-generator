@@ -1,17 +1,17 @@
 const xlsx = require('xlsx')
+const config = require('./entities/Config')
 
-module.exports.readFiles = ({ buildConfig, appsConfig }) => {
+module.exports.readFiles = () => {
   console.log('')
   console.log('Read files...')
 
-  const apps = buildConfig.applications
-
   const filesData = {}
 
-  apps.forEach((app) => {
+  config.applications.forEach((app) => {
     filesData[app] = {}
 
-    const files = appsConfig[app].files
+    const files = config.getAppFiles(app)
+
     Object.keys(files).forEach((file) => {
       const excelData = xlsx.readFile(`${files[file]}`)
       if (!excelData) throw new Error(`Read file ${files[file]} error`)

@@ -1,21 +1,15 @@
-// const fs = require('fs')
 const xlsx = require('xlsx')
-// const { readJSON } = require('./helpers')
+const config = require('./entities/Config')
 
-// const buildConfig = readJSON('./config/build.json')
-// const appsData = readJSON('./config/apps.json')
-
-module.exports.openSheets = ({ filesData, buildConfig, appsConfig }) => {
+module.exports.openSheets = (filesData) => {
   console.log('')
   console.log('Open sheets data...')
 
   const sheets = {}
 
-  const apps = buildConfig.applications
-
-  apps.forEach((app) => {
+  config.applications.forEach((app) => {
     sheets[app] = {}
-    const appSheets = appsConfig[app].sheets
+    const appSheets = config.getAppSheets(app)
 
     Object.keys(appSheets).forEach((sheet) => {
       const sheetFile = appSheets[sheet].file
@@ -25,11 +19,10 @@ module.exports.openSheets = ({ filesData, buildConfig, appsConfig }) => {
       const excelData = filesData[app][sheetFile]
       const sheetRows = xlsx.utils.sheet_to_json(excelData.Sheets[sheetName], { header: 1 })
 
-      if (!sheetRows.length)
-        throw new Error(`Open sheet "${sheetName}" in ${sheetFile} (${app}) error`)
+      if (!sheetRows.length) throw new Error(`Open sheet "${sheetName}" in ${sheetFile} (${app}) error`)
 
-      const contentRows = sheetRows.slice(headerRowNumber - 1)
-      sheets[app][sheet] = contentRows
+      const content = sheetRows.slice(headerRowNumber - 1)
+      sheets[app][sheet] = { header: content.shift(), data: content }
     })
   })
 

@@ -1,0 +1,65 @@
+const fs = require('fs')
+const { readJSON } = require('../helpers')
+
+class Config {
+  defaultOutPath = './network_description'
+
+  constructor() {
+    // Read configs
+    this.buildConfig = readJSON('./config/build.json')
+    this.appsConfig = readJSON('./config/apps.json')
+  }
+
+  get applications() {
+    return Object.values(this.buildConfig.applications)
+  }
+
+  get positions() {
+    return Object.values(this.buildConfig.positions)
+  }
+
+  get OUT_PATH() {
+    return this.buildConfig.outPath || defaultOutPath
+  }
+
+  getApp(appName) {
+    return this.appsConfig[appName]
+  }
+
+  getAppFiles(appName) {
+    return this.appsConfig[appName].files
+  }
+
+  getAppSheets(appName) {
+    return this.appsConfig[appName].sheets
+  }
+
+  getAppPorts(appName) {
+    return this.appsConfig[appName].ports
+  }
+
+  getAppVls(appName) {
+    return this.appsConfig[appName].vls
+  }
+
+  check() {
+    try {
+      const dataDir = fs.readdirSync('./data')
+      // Проверка наличия приложений в конфигурации билда
+      if (!this.applications?.length) throw new Error('Applications not defined in ./config/build.json')
+
+      // Проверка наличия папок приложений
+      this.applications.forEach((app) => {
+        if (!dataDir.includes(app)) throw new Error(`App ${app} folder not found in ./data`)
+      })
+      // Проверка наличия данных для приложений в конфиге
+      this.applications.forEach((app) => {
+        if (!this.appsConfig[app]) throw new Error(`App ${app} not found in ./config/apps.json`)
+      })
+    } catch (err) {
+      console.log('CHECK CONFIG ERROR:', err)
+    }
+  }
+}
+
+module.exports = new Config()

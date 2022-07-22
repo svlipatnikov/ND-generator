@@ -1,21 +1,34 @@
-const { checkConfig } = require('./src/checkConfig')
+const { clearDir } = require('./src/helpers')
 const { readFiles } = require('./src/readFiles')
 const { openSheets } = require('./src/openSheets')
-const { readJSON } = require('./src/helpers')
+const { genND } = require('./src/genND')
+const { convertToXML } = require('./src/convertToXML')
 
+const config = require('./src/entities/Config')
+
+console.log('===============')
 console.log('START APP')
 
-// Read configs
-const buildConfig = readJSON('./config/build.json')
-const appsConfig = readJSON('./config/apps.json')
-
-// Check
-checkConfig({ buildConfig, appsConfig })
+// Check configs
+config.check()
 
 // Read files
-const filesData = readFiles({ buildConfig, appsConfig })
+const filesData = readFiles()
 
 // Read xlsx sheets as json
-const sheets = openSheets({ filesData, buildConfig, appsConfig })
+const sheetsData = openSheets(filesData)
 
+// clear prev gen data
+clearDir(config.OUT_PATH)
+
+// gen network description
+const positions = config.positions
+for (let num = 0; num < positions.length; num++) {
+  const position = positions[num]
+  const nd = genND({ num, position, sheetsData })
+  convertToXML({ nd, position, path: config.OUT_PATH })
+}
+
+console.log('')
 console.log('END APP')
+console.log('===============')

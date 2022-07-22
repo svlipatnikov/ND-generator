@@ -1,10 +1,15 @@
 {
   "applications": ["DA", "CONF", "A661"],
-  "positions": {
-    "1": "DUOL",
-    "2": "DUIL",
-    "3": "DUCD",
-    "4": "DUIR",
-    "5": "DUOR"
-  }
+  "positions": ["DUOL", "DUIL", "DUCD", "DUIR", "DUOR"],
+  "targetDevice": {
+    "MDU": "TARGET",
+    "NETWORK": "FREGAT"
+  },
+  "macInterface": {
+    "MDU": ["02:00:00:04:21:20", "02:00:00:04:41:20", "02:00:00:04:61:20", "02:00:00:04:81:20", "02:00:00:04:A1:20"],
+    "NETWORK": ["02:00:00:00:00:01", "02:00:00:00:00:02", "02:00:00:00:00:03", "02:00:00:00:00:04", "02:00:00:00:00:05"]
+  },
+  "defaultQueueSize": 10,
+  "dataPath": "./data",
+  "outPath": "./network_description"
 }

@@ -20,6 +20,30 @@
         "name": "Определение API портов",
         "headerRowNumber": 6
       }
+    },
+    "ports": {
+      "sheet": "messages",
+      "posColumn": "Equipment",
+      "filters": {},
+      "isOutput": {
+        "column": "I/0",
+        "value":  "O"
+      },
+      "isInput": {
+        "column": "I/0",
+        "value":  "I"    
+      },
+      "ipSourceAddress": "IP", 
+      "udpSourcePort": "UDP",
+      "ipDestinationAddress": "dest IP",
+      "udpDestinationPort": "Dest UDP",
+      "maxPayloadSize": "Size"
+    },
+    "vls": {
+      "sheet": "vls",
+      "posColumn": "Equipment", 
+      "filters": {},
+      "bag": "Bandwidth"
     }
   },
 
@@ -44,6 +68,25 @@
         "name": "API Definition",
         "headerRowNumber": 6
       }
+    },
+
+    "ports": {
+      "sheet": "messages",
+      "posColumn": "Equipment",
+      "filters": {},
+      "isOutput": {
+        "column": "I/0",
+        "value":  "O"
+      },
+      "isInput": {
+        "column": "I/0",
+        "value":  "I"    
+      },
+      "ipSourceAddress": "IP", 
+      "udpSourcePort": "UDP",
+      "ipDestinationAddress": "dest IP",
+      "udpDestinationPort": "Dest UDP",
+      "maxPayloadSize": "Size"
     }
   },
 
@@ -68,6 +111,25 @@
         "name": "API Definition",
         "headerRowNumber": 6
       }
+    },
+
+    "ports": {
+      "sheet": "messages",
+      "posColumn": "Equipment",
+      "filters": {},
+      "isOutput": {
+        "column": "I/0",
+        "value":  "O"
+      },
+      "isInput": {
+        "column": "I/0",
+        "value":  "I"    
+      },
+      "ipSourceAddress": "IP", 
+      "udpSourcePort": "UDP",
+      "ipDestinationAddress": "dest IP",
+      "udpDestinationPort": "Dest UDP",
+      "maxPayloadSize": "Size"
     }
   }
 }
