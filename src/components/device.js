@@ -1,6 +1,5 @@
-const Element = require('../entities/Element')
 const Device = require('../entities/Device')
-const { readJSON, getAppDataByCfg, getCellValue } = require('../helpers')
+const { getAppDataByCfg, getCellValue } = require('../helpers')
 const { createDeviceTarget, TARGET, FREGAT, SWITCH } = require('./deviceTarget')
 const { createHostInterface } = require('./hostinterface')
 const { createPort } = require('./port')
@@ -8,6 +7,8 @@ const { createMacInterface } = require('./macInterface')
 const { createPartition } = require('./partition')
 const { createDataPort } = require('./dataPort')
 const { createQueueingBuffer, createSamplingBuffer } = require('./buffer')
+const config = require('../entities/Config')
+const { sheets } = require('../entities/Data')
 
 // create switch
 const createDeviceSwitch = (name) => {
@@ -24,21 +25,15 @@ const createDeviceSwitch = (name) => {
   return device
 }
 
-// read config data
-const buildConfig = readJSON('./config/build.json')
-const applications = buildConfig.applications || []
-const targetDevice = buildConfig.targetDevice || { MDU: TARGET, NETWORK: FREGAT }
-const mac = buildConfig.macInterface || { MDU: '02:00:00:00:00:01', NETWORK: '02:00:00:00:00:01' }
-
 // create ES device
-const createDeviceES = ({ deviceName, num, position, sheetsData }) => {
+const createDeviceMDU = (deviceName, position) => {
   const device = new Device('device', { 'xsi:type': 'topo:EndSystem', name: `ES_${deviceName}` })
 
   const port1 = createPort({ name: `${deviceName}_P1`, targetId: 'PHY.1' })
   const port2 = createPort({ name: `${deviceName}_P2`, targetId: 'PHY.2' })
-  const deviceTarget = createDeviceTarget(targetDevice[deviceName])
+  const deviceTarget = createDeviceTarget(config.getTarget[deviceName] || TARGET)
   const hostInterface = createHostInterface(`ES_${deviceName}_PHOST`)
-  const macInterface = createMacInterface(`ES_${deviceName}_MAC`, mac[deviceName][num])
+  const macInterface = createMacInterface(`ES_${deviceName}_MAC`, config.getMac(deviceName, position))
 
   device.addChild(port1)
   device.addChild(port2)
@@ -46,11 +41,11 @@ const createDeviceES = ({ deviceName, num, position, sheetsData }) => {
   hostInterface.addChild(macInterface)
   device.addChild(hostInterface)
 
-  applications.forEach((applicationName) => {
+  config.applications.forEach((applicationName) => {
     const partition = createPartition(applicationName, deviceName)
 
-    const appData = sheetsData[applicationName]
-    const portsConfig = readJSON('./config/apps.json')[applicationName].ports
+    const appData = sheets[applicationName]
+    const portsConfig = config.getAppPorts(applicationName)
     const { rows, header } = getAppDataByCfg({ position, appData, dataConfig: portsConfig })
 
     rows.forEach((row) => {
@@ -77,7 +72,7 @@ const createDeviceES = ({ deviceName, num, position, sheetsData }) => {
 
       // TODO find port type and size
       const isQueueingBuffer = true
-      const fifoSize = buildConfig.defaultQueueSize
+      const fifoSize = config.defaultQueueSize
       const buffer = isQueueingBuffer ? createQueueingBuffer(fifoSize) : createSamplingBuffer()
 
       dataPort.addChild(buffer)
@@ -91,12 +86,12 @@ const createDeviceES = ({ deviceName, num, position, sheetsData }) => {
   return device
 }
 
-const createDevices = ({ num, position, sheetsData }) => {
+const createDevices = (position) => {
   return {
     deviceSwitch1: createDeviceSwitch('Switch1'),
     deviceSwitch2: createDeviceSwitch('Switch2'),
-    deviceNetwork: createDeviceES({ deviceName: 'NETWORK', num, position, sheetsData }),
-    deviceMDU: createDeviceES({ deviceName: 'MDU', num, position, sheetsData }),
+    deviceMDU: createDeviceMDU('MDU', position),
+    deviceNetwork: createDeviceMDU('NETWORK', position), // todo inverse ports
   }
 }
 

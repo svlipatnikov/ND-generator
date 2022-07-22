@@ -22,6 +22,19 @@ class Config {
     return this.buildConfig.outPath || defaultOutPath
   }
 
+  get defaultQueueSize() {
+    return this.buildConfig.defaultQueueSize
+  }
+
+  getMac(deviceName, position) {
+    const index = this.positions.findIndex(p => p === position)
+    return this.buildConfig.macInterface[deviceName][index]
+  }
+
+  getTarget(deviceName) {
+    return this.buildConfig.targetDevice[deviceName]
+  }
+
   getApp(appName) {
     return this.appsConfig[appName]
   }

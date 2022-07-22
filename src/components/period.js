@@ -1,11 +1,18 @@
 const Element = require('../entities/Element')
+const config = require('../entities/Config')
 
 const createPeriod = (time) => new Element('period', { name: `BAG_${time}`, time: `${time} ms` })
 
-const createPeriods = ({ num, position, sheetsData }) => {
-  // read config data
-  const buildConfig = readJSON('./config/build.json')
-  const applications = buildConfig.applications || []
-  const targetDevice = buildConfig.targetDevice || { MDU: TARGET, NETWORK: FREGAT }
-  const mac = buildConfig.macInterface || { MDU: '02:00:00:00:00:01', NETWORK: '02:00:00:00:00:01' }
+const createPeriods = ( sheetsData ) => {
+  const bags = new Set()
+  config.applications.forEach((app) => {
+    // TODO read all vls for each app and get its bag
+  })
+
+  const periods = []
+  bags.forEach((bag) => periods.push(createPeriod(bag)))
+
+  return periods
 }
+
+module.exports = {createPeriods}

@@ -12,20 +12,13 @@ console.log('START APP')
 // Check configs
 config.check()
 
-// Read files
-const filesData = readFiles()
-
-// Read xlsx sheets as json
-const sheetsData = openSheets(filesData)
-
 // clear prev gen data
 clearDir(config.OUT_PATH)
 
 // gen network description
 const positions = config.positions
-for (let num = 0; num < positions.length; num++) {
-  const position = positions[num]
-  const nd = genND({ num, position, sheetsData })
+for (const position of positions) {
+  const nd = genND({ position })
   convertToXML({ nd, position, path: config.OUT_PATH })
 }
 
