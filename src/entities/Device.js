@@ -14,7 +14,7 @@ class Device extends Element {
   }
 
   get linkPort2() {
-    return `//@device[name='${this.attributes.name}']/@port[name='${this.attributes.name}_P1']`
+    return `//@device[name='${this.attributes.name}']/@port[name='${this.attributes.name}_P2']`
   }
 }
 

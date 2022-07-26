@@ -1,12 +1,18 @@
-const Element = require('../entities/Element')
+const Period = require('../entities/Period')
 const config = require('../entities/Config')
+const data = require('../entities/Data')
+const { getAppDataByCfg } = require('../helpers')
 
-const createPeriod = (time) => new Element('period', { name: `BAG_${time}`, time: `${time} ms` })
+const createPeriod = (time) => new Period(time)
 
-const createPeriods = ( sheetsData ) => {
+const createPeriods = (position) => {
   const bags = new Set()
   config.applications.forEach((app) => {
-    // TODO read all vls for each app and get its bag
+    const vlsConfig = config.getAppVls(app)
+    const appSheets = data.getAppSheets(app)
+    const { header, rows } = getAppDataByCfg({ position, appSheets, config: vlsConfig })
+    const bagIndex = header.findIndex(h => h === vlsConfig.bag)
+    rows.forEach(row => bags.add(row[bagIndex]))
   })
 
   const periods = []
@@ -15,4 +21,4 @@ const createPeriods = ( sheetsData ) => {
   return periods
 }
 
-module.exports = {createPeriods}
+module.exports = { createPeriods }

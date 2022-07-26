@@ -51,11 +51,11 @@ module.exports.getCellValue = ({ row = [], header = [], name = '' }) => {
   return row[index]
 }
 
-module.exports.getAppDataByCfg = ({ position, appData, dataConfig = {} }) => {
-  const { sheet, filters, posColumn } = dataConfig
+module.exports.getAppDataByCfg = ({ position, appSheets, config = {} }) => {
+  const { sheet, filters, posColumn } = config
 
-  const header = appData[sheet].header
-  let rows = [...appData[sheet].data]
+  const header = appSheets[sheet].header
+  let rows = [...appSheets[sheet].data]
 
   const posColumnIndex = header.findIndex((h) => h === posColumn)
   if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
@@ -66,4 +66,9 @@ module.exports.getAppDataByCfg = ({ position, appData, dataConfig = {} }) => {
   })
 
   return { rows, header }
+}
+
+module.exports.genLink = (linkData) => {
+  // const portLink = `//@device[name='${deviceName}']/@partition[name='${partitionName}']/@dataPort[name='${dataPortName}']`
+  return Object.entries(linkData).reduce((link, [element, name]) => link + `/@${element}[name='${name}']`, '/')
 }

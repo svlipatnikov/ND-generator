@@ -2,8 +2,8 @@ const Element = require('../entities/Element')
 
 const createPartition = (partitionName, deviceName) => {
   const partition = new Element('partition', {
-    name: partitionName,
-    logicalInterface: `//@device[name='${deviceName}']/@hostInterface[name=${deviceName}_PHOST']`,
+    name: `${deviceName}_${partitionName}`,
+    logicalInterface: `//@device[name='${deviceName}']/@hostInterface[name='${deviceName}_PHOST']`,
     // ipSourceAddress, // TODO
   })
 

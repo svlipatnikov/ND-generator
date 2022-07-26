@@ -50,13 +50,19 @@ class Data {
   get files() {
     return this._files
   }
+
+  getAppSheets (appName) {
+    return this._sheets[appName]
+  }
+
+  getAppSheet (appName, sheetName) {
+    const appSheets = this.getAppSheets(appName) || {}
+    return appSheets[sheetName]
+  }
 }
 
 const data = new Data(config)
 data.readFiles()
 data.convertXLSX2js()
 
-module.exports = {
-  sheets: data.sheets,
-  files: data.files,
-}
+module.exports = data

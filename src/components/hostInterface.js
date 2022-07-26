@@ -1,6 +1,6 @@
 const Element = require('../entities/Element')
 
-const createHostInterface = (name = 'ES_PHOST') =>
+const createHostInterface = (name = 'PHOST') =>
   new Element('hostInterface', { name, targetId: 'HOST.0' })
 
 module.exports = { createHostInterface }

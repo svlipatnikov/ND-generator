@@ -55,6 +55,18 @@ class Config {
     return this.appsConfig[appName].vls
   }
 
+  get marker() {
+    return this.buildConfig.marker || "03:00:00:00"
+  }
+
+  get defaultJitter() {
+    return this.buildConfig.defaultJitter
+  }
+
+  get networkSourceIp () {
+    return this.buildConfig.networkSourceIp
+  }
+
   check() {
     try {
       const dataDir = fs.readdirSync('./data')

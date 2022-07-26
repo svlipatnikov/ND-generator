@@ -8,7 +8,7 @@ module.exports.convertToXML = ({ nd, position, path }) => {
   const nd_xml = convert.js2xml(nd, {
     compact: true,
     ignoreComment: true,
-    spaces: 2,
+    spaces: 4,
     indentCdata: true,
     // indentAttributes: true,
   })

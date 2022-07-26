@@ -2,14 +2,17 @@
   "applications": ["DA", "CONF", "A661"],
   "positions": ["DUOL", "DUIL", "DUCD", "DUIR", "DUOR"],
   "targetDevice": {
-    "MDU": "TARGET",
-    "NETWORK": "FREGAT"
+    "MDU": "TTE_ES_A664_Pro_PMC",
+    "NETWORK": "TTE_ES_A664_Pro_PMC"
   },
   "macInterface": {
     "MDU": ["02:00:00:04:21:20", "02:00:00:04:41:20", "02:00:00:04:61:20", "02:00:00:04:81:20", "02:00:00:04:A1:20"],
     "NETWORK": ["02:00:00:00:00:01", "02:00:00:00:00:02", "02:00:00:00:00:03", "02:00:00:00:00:04", "02:00:00:00:00:05"]
   },
+  "marker": "03:00:00:00",
   "defaultQueueSize": 10,
+  "defaultJitter": "1 ms",
+  "networkSourceIp": "10.1.1.1",
   "dataPath": "./data",
   "outPath": "./network_description"
 }

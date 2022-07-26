@@ -1,9 +1,10 @@
 {
   "DA": {
     "files": {
-      "sid": "./data/DA/KAHT.IDS21.14.021-15B Д(С) SID ФПО DA.xlsx",
-      "pdt": "./data/DA/Port_Definition_Table_DA_12А.xls"
+      "sid": "./data/DA/KAHT.IDS21.14.021-12 Д(С) SID ФПО DA.xlsx",
+      "pdt": "./data/DA/Port_Definition_Table_DA_11C.xls"
     },
+
     "sheets": {
       "messages": {
         "file": "sid",
@@ -21,29 +22,35 @@
         "headerRowNumber": 6
       }
     },
+
     "ports": {
       "sheet": "messages",
       "posColumn": "Equipment",
       "filters": {},
       "isOutput": {
         "column": "I/0",
-        "value":  "O"
+        "value": "O"
       },
       "isInput": {
         "column": "I/0",
-        "value":  "I"    
+        "value": "I"
       },
-      "ipSourceAddress": "IP", 
+      "ipSourceAddress": "IP",
       "udpSourcePort": "UDP",
       "ipDestinationAddress": "dest IP",
       "udpDestinationPort": "Dest UDP",
-      "maxPayloadSize": "Size"
+      "maxPayloadSize": "Size",
+      "vlLink": "VL Name"
     },
+
     "vls": {
       "sheet": "vls",
-      "posColumn": "Equipment", 
+      "posColumn": "Equipment",
       "filters": {},
-      "bag": "Bandwidth"
+      "bag": "Bandwidth",
+      "id": "Identity",
+      "maxFrameSize": "Max Frame Size",
+      "vlLink": "Vl Name"
     }
   },
 
@@ -52,6 +59,7 @@
       "sid": "./data/A661/KAHT.IDS21.14.020-10 Д(С) SID ФПО A661Server.xlsx",
       "pdt": "./data/A661/IRDD для ФПО A661SERVER версия 09A.xls"
     },
+
     "sheets": {
       "messages": {
         "file": "sid",
@@ -76,17 +84,28 @@
       "filters": {},
       "isOutput": {
         "column": "I/0",
-        "value":  "O"
+        "value": "O"
       },
       "isInput": {
         "column": "I/0",
-        "value":  "I"    
+        "value": "I"
       },
-      "ipSourceAddress": "IP", 
+      "ipSourceAddress": "IP",
       "udpSourcePort": "UDP",
       "ipDestinationAddress": "dest IP",
       "udpDestinationPort": "Dest UDP",
-      "maxPayloadSize": "Size"
+      "maxPayloadSize": "Size",
+      "vlLink": "VL Name"
+    },
+
+    "vls": {
+      "sheet": "vls",
+      "posColumn": "Equipment",
+      "filters": {},
+      "bag": "Bandwidth",
+      "id": "Identity",
+      "maxFrameSize": "Max Frame Size",
+      "vlLink": "Vl Name"
     }
   },
 
@@ -95,6 +114,7 @@
       "sid": "./data/CONF/KAHT.IDS21.14.019-08 Д(С) SID ФПО CONF.xlsx",
       "pdt": "./data/CONF/IRDD для ФПО CONF_08B.xls"
     },
+
     "sheets": {
       "messages": {
         "file": "sid",
@@ -119,17 +139,28 @@
       "filters": {},
       "isOutput": {
         "column": "I/0",
-        "value":  "O"
+        "value": "O"
       },
       "isInput": {
         "column": "I/0",
-        "value":  "I"    
+        "value": "I"
       },
-      "ipSourceAddress": "IP", 
+      "ipSourceAddress": "IP",
       "udpSourcePort": "UDP",
       "ipDestinationAddress": "dest IP",
       "udpDestinationPort": "Dest UDP",
-      "maxPayloadSize": "Size"
+      "maxPayloadSize": "Size",
+      "vlLink": "VL Name"
+    },
+
+    "vls": {
+      "sheet": "vls",
+      "posColumn": "Equipment",
+      "filters": {},
+      "bag": "Bandwidth",
+      "id": "Identity",
+      "maxFrameSize": "Max Frame Size",
+      "vlLink": "Vl Name"
     }
   }
 }
