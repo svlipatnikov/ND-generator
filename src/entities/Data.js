@@ -32,9 +32,17 @@ class Data {
         const headerRowNumber = appSheets[sheet].headerRowNumber
 
         const excelData = this._files[app][sheetFile]
-        const sheetRows = xlsx.utils.sheet_to_json(excelData.Sheets[sheetName], { header: 1 })
+        const sheetRows = xlsx.utils.sheet_to_json(excelData.Sheets[sheetName], { header: 1, defval: null })
 
         const content = sheetRows.slice(headerRowNumber - 1)
+
+        // fill empty merged cells
+        content.forEach((row, rowIndex) => {
+          row.forEach((cell, cellIndex) => {
+            if (cell === null) content[rowIndex][cellIndex] = content[rowIndex - 1][cellIndex]
+          })
+        })
+
         this._sheets[app][sheet] = {
           header: content.shift(),
           data: content,

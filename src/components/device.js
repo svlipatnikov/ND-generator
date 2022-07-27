@@ -12,7 +12,7 @@ const data = require('../entities/Data')
 
 // create switch
 const createDeviceSwitch = (name) => {
-  const device = new Device('device', { 'xsi:type': 'topo:Switch', name })
+  const device = new Device({ 'xsi:type': 'topo:Switch', name })
 
   const port1 = createPort({ name: `${name}_P1`, targetId: 'PHY.1' })
   const port2 = createPort({ name: `${name}_P2`, targetId: 'PHY.2' })
@@ -27,7 +27,7 @@ const createDeviceSwitch = (name) => {
 
 // create ES device
 const createDeviceMDU = (deviceName, position) => {
-  const device = new Device('device', { 'xsi:type': 'topo:EndSystem', name: deviceName })
+  const device = new Device({ 'xsi:type': 'topo:EndSystem', name: deviceName })
 
   const port1 = createPort({ name: `${deviceName}_P1`, targetId: 'PHY.1' })
   const port2 = createPort({ name: `${deviceName}_P2`, targetId: 'PHY.2' })
@@ -42,8 +42,8 @@ const createDeviceMDU = (deviceName, position) => {
   device.addChild(hostInterface)
 
   config.applications.forEach((applicationName) => {
+    const enAppName = config.getEnAppName(applicationName)
     const partition = createPartition(applicationName, deviceName)
-
     const appSheets = data.getAppSheets(applicationName)
     const portsConfig = config.getAppPorts(applicationName)
     const { rows, header } = getAppDataByCfg({ position, appSheets, config: portsConfig })
@@ -58,14 +58,19 @@ const createDeviceMDU = (deviceName, position) => {
       const maxPayloadSize = getCellValue({ row, header, name: portsConfig.maxPayloadSize })
       const vlLink = getCellValue({ row, header, name: portsConfig.vlLink })
       const afdxPort = isOutput ? udpSourcePort : isInput ? udpDestinationPort : undefined
+      const dataPortName = `${enAppName}_${afdxPort}`
 
       if (isOutput && ipSourceAddress) partition.addAttributes({ ipSourceAddress })
+
+      if (!afdxPort) return
+
+      if (partition.dataPortsSet.has(dataPortName)) return
 
       const dataPort = createDataPort()
       dataPort.vlLink = vlLink
       dataPort.io = isInput ? 'I' : isOutput ? 'O' : undefined
       dataPort.addAttributes({
-        name: `${applicationName}_${afdxPort}`,
+        name: dataPortName,
         'xsi:type': `logical:${isOutput ? 'TxComUdpPort' : isInput ? 'RxComUdpPort' : undefined}`,
         maxPayloadSize: `${maxPayloadSize} byte`,
         udpSourcePort,
@@ -89,9 +94,9 @@ const createDeviceMDU = (deviceName, position) => {
   return device
 }
 
-// create network device 
+// create network device
 const createDeviceNETWORK = (deviceName, position) => {
-  const device = new Device('device', { 'xsi:type': 'topo:EndSystem', name: deviceName })
+  const device = new Device({ 'xsi:type': 'topo:EndSystem', name: deviceName })
 
   const port1 = createPort({ name: `${deviceName}_P1`, targetId: 'PHY.1' })
   const port2 = createPort({ name: `${deviceName}_P2`, targetId: 'PHY.2' })
@@ -106,8 +111,8 @@ const createDeviceNETWORK = (deviceName, position) => {
   device.addChild(hostInterface)
 
   config.applications.forEach((applicationName) => {
+    const enAppName = config.getEnAppName(applicationName)
     const partition = createPartition(applicationName, deviceName)
-
     const appSheets = data.getAppSheets(applicationName)
     const portsConfig = config.getAppPorts(applicationName)
     const { rows, header } = getAppDataByCfg({ position, appSheets, config: portsConfig })
@@ -122,14 +127,19 @@ const createDeviceNETWORK = (deviceName, position) => {
       const maxPayloadSize = getCellValue({ row, header, name: portsConfig.maxPayloadSize })
       const vlLink = getCellValue({ row, header, name: portsConfig.vlLink })
       const afdxPort = isOutput ? udpSourcePort : isInput ? udpDestinationPort : undefined
+      const dataPortName = `${enAppName}_${afdxPort}`
 
       if (isOutput && ipSourceAddress) partition.addAttributes({ ipSourceAddress })
+
+      if (!afdxPort) return
+
+      if (partition.dataPortsSet.has(dataPortName)) return
 
       const dataPort = createDataPort()
       dataPort.vlLink = vlLink
       dataPort.io = isInput ? 'O' : isOutput ? 'I' : undefined // mirror io
       dataPort.addAttributes({
-        name: `${applicationName}_${afdxPort}`,
+        name: dataPortName,
         'xsi:type': `logical:${isInput ? 'TxComUdpPort' : isOutput ? 'RxComUdpPort' : undefined}`, // mirror directions
         maxPayloadSize: `${maxPayloadSize} byte`,
         udpSourcePort,

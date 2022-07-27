@@ -18,8 +18,10 @@ clearDir(config.OUT_PATH)
 // gen network description
 const positions = config.positions
 for (const position of positions) {
-  const nd = genND({ position })
-  convertToXML({ nd, position, path: config.OUT_PATH })
+  const nd = genND(position)
+  const posNum = config.getPosNum(position)
+  const enPositionName = config.getEnPositionName(position)
+  convertToXML({ nd, enPositionName, posNum, path: config.OUT_PATH })
 }
 
 console.log('')

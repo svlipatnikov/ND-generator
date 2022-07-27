@@ -11,12 +11,14 @@ const createPeriods = (position) => {
     const vlsConfig = config.getAppVls(app)
     const appSheets = data.getAppSheets(app)
     const { header, rows } = getAppDataByCfg({ position, appSheets, config: vlsConfig })
-    const bagIndex = header.findIndex(h => h === vlsConfig.bag)
-    rows.forEach(row => bags.add(row[bagIndex]))
+    const bagIndex = header.findIndex((h) => h === vlsConfig.bag)
+    rows.forEach((row) => bags.add(row[bagIndex]))
   })
 
   const periods = []
-  bags.forEach((bag) => periods.push(createPeriod(bag)))
+  bags.forEach((bag) => {
+    if (bag) periods.push(createPeriod(bag))
+  })
 
   return periods
 }

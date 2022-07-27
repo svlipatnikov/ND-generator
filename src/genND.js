@@ -12,15 +12,19 @@ const data = require('./entities/Data')
 const { getAppDataByCfg, genLink } = require('./helpers')
 const { createFlow } = require('./components/flow')
 
-module.exports.genND = ({ position }) => {
+
+
+module.exports.genND = ( position ) => {
   console.log(`Gen Network description file for ${position}...`)
+
+  const enPositionName = config.getEnPositionName(position)
 
   // declaration
   const declaration = createDeclaration()
-  const metaData = createMetaData(position)
+  const metaData = createMetaData(enPositionName)
 
   // network description
-  const networkDescription = createNetworkDescription(position)
+  const networkDescription = createNetworkDescription(enPositionName)
   networkDescription.addChild(metaData)
 
   // devices
@@ -60,36 +64,38 @@ module.exports.genND = ({ position }) => {
     const maxFrameSizeIndex = header.findIndex((h) => h === vlsConfig.maxFrameSize)
 
     rows.forEach((vlRow) => {
-      const vlLink = vlRow[vlLinkIndex]
-      const vlid = vlRow[vlIdIndex]
-      const bag = vlRow[bagIndex]
-      const maxFrameSize = vlRow[maxFrameSizeIndex]
-      const name = `VL_${vlid}`
-      const vlInputPorts = inputPortsHashByVl[vlLink]
-      const vlOutputPorts = outputPortsHashByVl[vlLink]
+      try {
+        const vlLink = vlRow[vlLinkIndex]
+        const vlid = vlRow[vlIdIndex]
+        const bag = vlRow[bagIndex]
+        const maxFrameSize = vlRow[maxFrameSizeIndex]
+        const name = `VL_${vlid}`
+        const vlInputPorts = inputPortsHashByVl[vlLink]
+        const vlOutputPorts = outputPortsHashByVl[vlLink]
 
-      const isLoopVl = vlInputPorts.some(({ device }) => device === 'MDU') && vlOutputPorts.some(({ device }) => device === 'MDU')
+        if (networkDescription.flowNamesSet.has(name)) return
 
-      const filteredVlOutputPorts = vlOutputPorts
-        .filter((p) => !isLoopVl || p.device === 'MDU') // filter if loop
-        .filter((p) => p.device === vlOutputPorts[0].device && p.partition === vlOutputPorts[0].partition)
+        const isLoopVl = vlInputPorts.some(({ device }) => device === 'MDU') && vlOutputPorts.some(({ device }) => device === 'MDU')
 
-      const filteredVlInputPorts = vlInputPorts
-        .filter((p) => !isLoopVl || p.device === 'MDU') // filter if loop
-        .filter((p) => p.device === vlInputPorts[0].device && p.partition === vlInputPorts[0].partition) // filter input port if vl receives more then one app in the same device
+        const filteredVlOutputPorts = vlOutputPorts
+          .filter((p) => !isLoopVl || p.device === 'MDU') // filter if loop
+          .filter((p) => p.device === vlOutputPorts[0].device && p.partition === vlOutputPorts[0].partition)
 
-      if (networkDescription.flowNamesSet.has(name)) return
+        const filteredVlInputPorts = vlInputPorts
+          .filter((p) => !isLoopVl || p.device === 'MDU') // filter if loop
+          .filter((p) => p.device === vlInputPorts[0].device && p.partition === vlInputPorts[0].partition) // filter input port if vl receives more then one app in the same device
 
-      const flow = createFlow()
-      flow.addAttributes({
-        name,
-        sender: filteredVlOutputPorts.map((p) => genLink(p)).join(` `),
-        receivers: filteredVlInputPorts.map((p) => genLink(p)).join(` `),
-        vlid,
-        maxFrameSize: `${maxFrameSize} byte`,
-        bag: networkDescription.getBagLink(bag),
-      })
-      networkDescription.addChild(flow)
+        const flow = createFlow()
+        flow.addAttributes({
+          name,
+          sender: filteredVlOutputPorts.map((p) => genLink(p)).join(` `),
+          receivers: filteredVlInputPorts.map((p) => genLink(p)).join(` `),
+          vlid,
+          maxFrameSize: `${maxFrameSize} byte`,
+          bag: networkDescription.getBagLink(bag),
+        })
+        networkDescription.addChild(flow)
+      } catch (err) {}
     })
   })
 

@@ -1,13 +1,15 @@
 {
   "applications": {
-    "APP": "ИМ"
+    "DA": "DA",
+    "CONF": "CONF",
+    "A661": "A661"
   },
   "positions": {
-    "DUOL": "ИМ №1",
-    "DUIL": "ИМ №2", 
-    "DUCD": "ИМ №3", 
-    "DUIR": "ИМ №4",
-    "DUOR": "ИМ №5"
+    "DUOL": "DUOL",
+    "DUIL": "DUIL", 
+    "DUCD": "DUCD", 
+    "DUIR": "DUIR",
+    "DUOR": "DUOR"
   },
   "targetDevice": {
     "MDU": "TTE_ES_A664_Pro_PMC",

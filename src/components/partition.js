@@ -1,10 +1,13 @@
-const Element = require('../entities/Element')
+const config = require('../entities/Config')
+const Partition = require('../entities/Partition')
+const { genLink } = require('../helpers')
 
 const createPartition = (partitionName, deviceName) => {
-  const partition = new Element('partition', {
-    name: `${deviceName}_${partitionName}`,
-    logicalInterface: `//@device[name='${deviceName}']/@hostInterface[name='${deviceName}_PHOST']`,
-    // ipSourceAddress, // TODO
+  const enAppName = config.getEnAppName(partitionName)
+
+  const partition = new Partition({
+    name: `${deviceName}_${enAppName}`,
+    logicalInterface: genLink({ device: deviceName, hostInterface: `${deviceName}_PHOST` }),
   })
 
   return partition

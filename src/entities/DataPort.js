@@ -1,5 +1,4 @@
 const Element = require('./Element')
-
 class DataPort extends Element {
   constructor(name) {
     super('dataPort', { name })
@@ -19,6 +18,10 @@ class DataPort extends Element {
 
   get io () {
     return this.direction
+  }
+
+  get name() {
+    return this.attributes.name
   }
 }
 

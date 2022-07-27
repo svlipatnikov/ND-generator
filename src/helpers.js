@@ -33,8 +33,8 @@ module.exports.clearDir = (path) => {
   fs.mkdirSync(path)
 }
 
-module.exports.saveFile = (path, position, file) => {
-  const filePath = path + `/${position}.network_description`
+module.exports.saveFile = (path, enPositionName, posNum, file) => {
+  const filePath = path + `/A664_NWD_${posNum}_${enPositionName}.network_description`
 
   fs.rm(filePath, (err) => {
     // if (err) console.log(err)
@@ -69,6 +69,5 @@ module.exports.getAppDataByCfg = ({ position, appSheets, config = {} }) => {
 }
 
 module.exports.genLink = (linkData) => {
-  // const portLink = `//@device[name='${deviceName}']/@partition[name='${partitionName}']/@dataPort[name='${dataPortName}']`
   return Object.entries(linkData).reduce((link, [element, name]) => link + `/@${element}[name='${name}']`, '/')
 }

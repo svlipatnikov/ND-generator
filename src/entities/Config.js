@@ -26,8 +26,33 @@ class Config {
     return this.buildConfig.defaultQueueSize
   }
 
+  get marker() {
+    return this.buildConfig.marker || '03:00:00:00'
+  }
+
+  get defaultJitter() {
+    return this.buildConfig.defaultJitter
+  }
+
+  get networkSourceIp() {
+    return this.buildConfig.networkSourceIp
+  }
+
+  getEnAppName(application) {
+    return Object.entries(this.buildConfig.applications).find(([enName, name]) => name === application)[0]
+  }
+
+  getEnPositionName(position) {
+    const posNum = this.getPosNum(position)
+    return Object.keys(this.buildConfig.positions)[posNum - 1]
+  }
+
+  getPosNum(position) {
+    return this.positions.findIndex((p) => p === position) + 1
+  }
+
   getMac(deviceName, position) {
-    const index = this.positions.findIndex(p => p === position)
+    const index = this.positions.findIndex((p) => p === position)
     return this.buildConfig.macInterface[deviceName][index]
   }
 
@@ -53,18 +78,6 @@ class Config {
 
   getAppVls(appName) {
     return this.appsConfig[appName].vls
-  }
-
-  get marker() {
-    return this.buildConfig.marker || "03:00:00:00"
-  }
-
-  get defaultJitter() {
-    return this.buildConfig.defaultJitter
-  }
-
-  get networkSourceIp () {
-    return this.buildConfig.networkSourceIp
   }
 
   check() {

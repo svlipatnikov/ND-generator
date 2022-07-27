@@ -162,5 +162,49 @@
       "maxFrameSize": "Max Frame Size",
       "vlLink": "Vl Name"
     }
+  },
+
+  "ИМ": {
+    "files": {
+      "vls_msg": "./data/ИМ/ICD VLs & Msg DU1-5 18.07.2022 (УКБП)_lip.xlsx"
+    },
+
+    "sheets": {
+      "afdx": {
+        "file": "vls_msg",
+        "name": "Лист1",
+        "headerRowNumber": 1
+      }
+    },
+
+    "ports": {
+      "sheet": "afdx",
+      "posColumn": "Индикатор",
+      "filters": {},
+      "isOutput": {
+        "column": "Приложение источник",
+        "value": "ИМ"
+      },
+      "isInput": {
+        "column": "Приложение приемник",
+        "value": "ИМ"
+      },
+      "ipSourceAddress": "IP Источника",
+      "udpSourcePort": "UDP источника",
+      "ipDestinationAddress": "IP Приемника",
+      "udpDestinationPort": "UDP приемника",
+      "maxPayloadSize": "Максимальный размер сообщения, байт",
+      "vlLink": "VL ID"
+    },
+
+    "vls": {
+      "sheet": "afdx",
+      "posColumn": "Индикатор",
+      "filters": {},
+      "bag": "BAG",
+      "id": "VL ID",
+      "maxFrameSize": "Максимальный размер фрейма",
+      "vlLink": "VL ID"
+    }
   }
 }
