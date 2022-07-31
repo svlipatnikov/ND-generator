@@ -1,10 +1,12 @@
-const Element = require("./Element")
+const Element = require('./Element')
+const config = require('./Config')
+const { genLink } = require('../helpers')
 
 class Partition extends Element {
   _dataPortsSet = new Set()
 
-  constructor (attributes) {
-    super ('partition', attributes)
+  constructor(attributes) {
+    super('partition', attributes)
   }
 
   get dataPortsSet() {
@@ -24,4 +26,15 @@ class Partition extends Element {
   }
 }
 
-module.exports = Partition
+const createPartition = (partitionName, deviceName) => {
+  const appCode = config.getAppCode(partitionName)
+
+  const partition = new Partition({
+    name: `${deviceName}_${appCode}`,
+    logicalInterface: genLink({ device: deviceName, hostInterface: `${deviceName}_PHOST` }),
+  })
+
+  return partition
+}
+
+module.exports = { Partition, createPartition }

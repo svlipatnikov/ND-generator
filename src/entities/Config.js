@@ -38,11 +38,11 @@ class Config {
     return this.buildConfig.networkSourceIp
   }
 
-  getEnAppName(application) {
+  getAppCode(application) {
     return Object.entries(this.buildConfig.applications).find(([enName, name]) => name === application)[0]
   }
 
-  getEnPositionName(position) {
+  getPositionCode(position) {
     const posNum = this.getPosNum(position)
     return Object.keys(this.buildConfig.positions)[posNum - 1]
   }

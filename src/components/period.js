@@ -1,12 +1,11 @@
-const Period = require('../entities/Period')
+const { createPeriod } = require('../entities/Period')
 const config = require('../entities/Config')
 const data = require('../entities/Data')
 const { getAppDataByCfg } = require('../helpers')
 
-const createPeriod = (time) => new Period(time)
-
-const createPeriods = (position) => {
+const genPeriods = (position) => {
   const bags = new Set()
+  
   config.applications.forEach((app) => {
     const vlsConfig = config.getAppVls(app)
     const appSheets = data.getAppSheets(app)
@@ -23,4 +22,4 @@ const createPeriods = (position) => {
   return periods
 }
 
-module.exports = { createPeriods }
+module.exports = { genPeriods }

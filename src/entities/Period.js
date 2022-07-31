@@ -11,4 +11,6 @@ class Period extends Element {
   }
 }
 
-module.exports = Period
+const createPeriod = (time) => new Period(time)
+
+module.exports = { Period, createPeriod }

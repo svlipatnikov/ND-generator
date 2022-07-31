@@ -1,23 +1,22 @@
-const { createDeclaration } = require('./components/declaration')
-const { createNetworkDescription } = require('./components/networkDescription')
-const { createMetaData } = require('./components/metaData')
+const { createDeclaration } = require('./entities/Declaration')
+const { createNetworkDescription } = require('./entities/NetworkDescription')
+const { createMetaData } = require('./entities/MetaData')
 const { createDevices } = require('./components/device')
-const { createPhysicalLink } = require('./components/physicalLink')
-const { createPeriods } = require('./components/period')
-const { createFlowMarker } = require('./components/flowMarker')
-const { createConstraint } = require('./components/constraint')
+const { createPhysicalLink } = require('./entities/PhysicalLink')
+const { createFlowMarker } = require('./entities/FlowMarker')
+const { createConstraint } = require('./entities/Constraint')
+
+const { genPeriods } = require('./components/period')
 
 const config = require('./entities/Config')
 const data = require('./entities/Data')
 const { getAppDataByCfg, genLink } = require('./helpers')
-const { createFlow } = require('./components/flow')
+const { createFlow } = require('./entities/Flow')
 
-
-
-module.exports.genND = ( position ) => {
+module.exports.genND = (position) => {
   console.log(`Gen Network description file for ${position}...`)
 
-  const enPositionName = config.getEnPositionName(position)
+  const enPositionName = config.getPositionCode(position)
 
   // declaration
   const declaration = createDeclaration()
@@ -46,7 +45,7 @@ module.exports.genND = ( position ) => {
   networkDescription.addChild(physicalLink4)
 
   // bag periods
-  const periods = createPeriods(position)
+  const periods = genPeriods(position)
   periods.forEach((period) => networkDescription.addChild(period))
 
   // flow (virtual links)

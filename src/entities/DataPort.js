@@ -1,4 +1,5 @@
 const Element = require('./Element')
+
 class DataPort extends Element {
   constructor(name) {
     super('dataPort', { name })
@@ -25,4 +26,7 @@ class DataPort extends Element {
   }
 }
 
-module.exports = DataPort
+const createDataPort = (name = '') => new DataPort(name)
+
+module.exports = { DataPort, createDataPort }
+

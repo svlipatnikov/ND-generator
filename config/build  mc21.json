@@ -5,11 +5,11 @@
     "A661": "A661"
   },
   "positions": {
-    "DUOL": "DUOL",
-    "DUIL": "DUIL", 
-    "DUCD": "DUCD", 
-    "DUIR": "DUIR",
-    "DUOR": "DUOR"
+    "DU1": "DUOL",
+    "DU2": "DUIL", 
+    "DU3": "DUCD", 
+    "DU4": "DUIR",
+    "DU5": "DUOR"
   },
   "targetDevice": {
     "MDU": "TTE_ES_A664_Pro_PMC",

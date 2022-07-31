@@ -1,12 +1,12 @@
 const Device = require('../entities/Device')
 const { getAppDataByCfg, getCellValue } = require('../helpers')
-const { createDeviceTarget, TARGET, FREGAT, SWITCH } = require('./deviceTarget')
-const { createHostInterface } = require('./hostinterface')
-const { createPort } = require('./port')
-const { createMacInterface } = require('./macInterface')
-const { createPartition } = require('./partition')
-const { createDataPort } = require('./dataPort')
-const { createQueueingBuffer, createSamplingBuffer } = require('./buffer')
+const { createDeviceTarget, TARGET, FREGAT, SWITCH } = require('../entities/DeviceTarget')
+const { createHostInterface } = require('../entities/HostInterface')
+const { createPort } = require('../entities/Port')
+const { createMacInterface } = require('../entities/MacInterface')
+const { createPartition } = require('../entities/Partition')
+const { createDataPort } = require('../entities/DataPort')
+const { createQueueingBuffer, createSamplingBuffer }= require('../entities/Buffer')
 const config = require('../entities/Config')
 const data = require('../entities/Data')
 
@@ -42,7 +42,7 @@ const createDeviceMDU = (deviceName, position) => {
   device.addChild(hostInterface)
 
   config.applications.forEach((applicationName) => {
-    const enAppName = config.getEnAppName(applicationName)
+    const appCode = config.getAppCode(applicationName)
     const partition = createPartition(applicationName, deviceName)
     const appSheets = data.getAppSheets(applicationName)
     const portsConfig = config.getAppPorts(applicationName)
@@ -58,7 +58,8 @@ const createDeviceMDU = (deviceName, position) => {
       const maxPayloadSize = getCellValue({ row, header, name: portsConfig.maxPayloadSize })
       const vlLink = getCellValue({ row, header, name: portsConfig.vlLink })
       const afdxPort = isOutput ? udpSourcePort : isInput ? udpDestinationPort : undefined
-      const dataPortName = `${enAppName}_${afdxPort}`
+      const dataPortIO = isInput ? 'I' : isOutput ? 'O' : undefined
+      const dataPortName = `${dataPortIO}_${appCode}_${afdxPort}`
 
       if (isOutput && ipSourceAddress) partition.addAttributes({ ipSourceAddress })
 
@@ -68,7 +69,7 @@ const createDeviceMDU = (deviceName, position) => {
 
       const dataPort = createDataPort()
       dataPort.vlLink = vlLink
-      dataPort.io = isInput ? 'I' : isOutput ? 'O' : undefined
+      dataPort.io = dataPortIO
       dataPort.addAttributes({
         name: dataPortName,
         'xsi:type': `logical:${isOutput ? 'TxComUdpPort' : isInput ? 'RxComUdpPort' : undefined}`,
@@ -111,7 +112,7 @@ const createDeviceNETWORK = (deviceName, position) => {
   device.addChild(hostInterface)
 
   config.applications.forEach((applicationName) => {
-    const enAppName = config.getEnAppName(applicationName)
+    const appCode = config.getAppCode(applicationName)
     const partition = createPartition(applicationName, deviceName)
     const appSheets = data.getAppSheets(applicationName)
     const portsConfig = config.getAppPorts(applicationName)
@@ -127,7 +128,8 @@ const createDeviceNETWORK = (deviceName, position) => {
       const maxPayloadSize = getCellValue({ row, header, name: portsConfig.maxPayloadSize })
       const vlLink = getCellValue({ row, header, name: portsConfig.vlLink })
       const afdxPort = isOutput ? udpSourcePort : isInput ? udpDestinationPort : undefined
-      const dataPortName = `${enAppName}_${afdxPort}`
+      const dataPortIO = isInput ? 'O' : isOutput ? 'I' : undefined // mirror io
+      const dataPortName = `${dataPortIO}_${appCode}_${afdxPort}`
 
       if (isOutput && ipSourceAddress) partition.addAttributes({ ipSourceAddress })
 
@@ -137,7 +139,7 @@ const createDeviceNETWORK = (deviceName, position) => {
 
       const dataPort = createDataPort()
       dataPort.vlLink = vlLink
-      dataPort.io = isInput ? 'O' : isOutput ? 'I' : undefined // mirror io
+      dataPort.io = dataPortIO
       dataPort.addAttributes({
         name: dataPortName,
         'xsi:type': `logical:${isInput ? 'TxComUdpPort' : isOutput ? 'RxComUdpPort' : undefined}`, // mirror directions

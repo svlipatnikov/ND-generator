@@ -1,3 +1,4 @@
+const { genLink } = require('../helpers')
 const Element = require('./Element')
 
 class NetworkDescription extends Element {
@@ -24,12 +25,12 @@ class NetworkDescription extends Element {
   }
 
   get flowLinks() {
-    return [...this.flowNamesSet].map((name) => `//@flow[name='${name}']`).join(` `)
+    return [...this.flowNamesSet].map((name) => genLink({ flow: name })).join(` `)
   }
 
   getBagLink(bagValue) {
     const bagElement = this.children.find((child) => child.name === 'period' && child.value === bagValue)
-    return `//@period[name='${bagElement.attributes.name}']`
+    return genLink({ period: bagElement.attributes.name })
   }
 
   getPortsHashByVl(direction) {
@@ -58,4 +59,9 @@ class NetworkDescription extends Element {
   }
 }
 
-module.exports = NetworkDescription
+const createNetworkDescription = (position) => {
+  const name = `AFDX_CONFIG_${position}`
+  return new NetworkDescription(name)
+}
+
+module.exports = { NetworkDescription, createNetworkDescription }

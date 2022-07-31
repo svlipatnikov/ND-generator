@@ -20,7 +20,7 @@ const positions = config.positions
 for (const position of positions) {
   const nd = genND(position)
   const posNum = config.getPosNum(position)
-  const enPositionName = config.getEnPositionName(position)
+  const enPositionName = config.getPositionCode(position)
   convertToXML({ nd, enPositionName, posNum, path: config.OUT_PATH })
 }
 
