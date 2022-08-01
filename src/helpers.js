@@ -33,8 +33,8 @@ module.exports.clearDir = (path) => {
   fs.mkdirSync(path)
 }
 
-module.exports.saveFile = (path, enPositionName, posNum, file) => {
-  const filePath = path + `/A664_NWD_${posNum}_${enPositionName}.network_description`
+module.exports.saveFile = (path, positionCode, file) => {
+  const filePath = path + `/A664_NWD_${positionCode}.network_description`
 
   fs.rm(filePath, (err) => {
     // if (err) console.log(err)

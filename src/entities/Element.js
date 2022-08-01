@@ -24,8 +24,12 @@ class Element {
     try {
       this.children = [...this.children, element]
     } catch (err) {
-      console.log('Add parameter error: ', err)
+      console.log('Add child error')
     }
+  }
+
+  addChildren(elementsArr) {
+    elementsArr.forEach(element => this.addChild(element))
   }
 
   getChild(name) {

@@ -9,17 +9,16 @@ const { createDataPort } = require('../entities/DataPort')
 const { createQueueingBuffer, createSamplingBuffer }= require('../entities/Buffer')
 const config = require('../entities/Config')
 const data = require('../entities/Data')
+const { genPorts } = require('./genPorts')
 
 // create switch
 const createDeviceSwitch = (name) => {
   const device = new Device({ 'xsi:type': 'topo:Switch', name })
 
-  const port1 = createPort({ name: `${name}_P1`, targetId: 'PHY.1' })
-  const port2 = createPort({ name: `${name}_P2`, targetId: 'PHY.2' })
-  const deviceTarget = createDeviceTarget(SWITCH)
+  const ports = genPorts(name)
+  device.addChildren(ports)
 
-  device.addChild(port1)
-  device.addChild(port2)
+  const deviceTarget = createDeviceTarget(SWITCH)
   device.addChild(deviceTarget)
 
   return device
@@ -29,15 +28,15 @@ const createDeviceSwitch = (name) => {
 const createDeviceMDU = (deviceName, position) => {
   const device = new Device({ 'xsi:type': 'topo:EndSystem', name: deviceName })
 
-  const port1 = createPort({ name: `${deviceName}_P1`, targetId: 'PHY.1' })
-  const port2 = createPort({ name: `${deviceName}_P2`, targetId: 'PHY.2' })
+  const ports = genPorts(deviceName)
+  device.addChildren(ports)
+
   const deviceTarget = createDeviceTarget(config.getTarget(deviceName) || TARGET)
+  device.addChild(deviceTarget)
+  
   const hostInterface = createHostInterface(`${deviceName}_PHOST`)
   const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
 
-  device.addChild(port1)
-  device.addChild(port2)
-  device.addChild(deviceTarget)
   hostInterface.addChild(macInterface)
   device.addChild(hostInterface)
 
@@ -99,15 +98,14 @@ const createDeviceMDU = (deviceName, position) => {
 const createDeviceNETWORK = (deviceName, position) => {
   const device = new Device({ 'xsi:type': 'topo:EndSystem', name: deviceName })
 
-  const port1 = createPort({ name: `${deviceName}_P1`, targetId: 'PHY.1' })
-  const port2 = createPort({ name: `${deviceName}_P2`, targetId: 'PHY.2' })
+  const ports = genPorts(deviceName)
+  device.addChildren(ports)
+  
   const deviceTarget = createDeviceTarget(config.getTarget(deviceName) || FREGAT)
+  device.addChild(deviceTarget)
+
   const hostInterface = createHostInterface(`${deviceName}_PHOST`)
   const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
-
-  device.addChild(port1)
-  device.addChild(port2)
-  device.addChild(deviceTarget)
   hostInterface.addChild(macInterface)
   device.addChild(hostInterface)
 

@@ -19,9 +19,8 @@ clearDir(config.OUT_PATH)
 const positions = config.positions
 for (const position of positions) {
   const nd = genND(position)
-  const posNum = config.getPosNum(position)
-  const enPositionName = config.getPositionCode(position)
-  convertToXML({ nd, enPositionName, posNum, path: config.OUT_PATH })
+  const positionCode = config.getPositionCode(position)
+  convertToXML({ nd, positionCode, path: config.OUT_PATH })
 }
 
 console.log('')
