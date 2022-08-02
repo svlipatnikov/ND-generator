@@ -39,7 +39,11 @@ class Data {
         // fill empty merged cells
         content.forEach((row, rowIndex) => {
           row.forEach((cell, cellIndex) => {
-            if (cell === null) content[rowIndex][cellIndex] = content[rowIndex - 1][cellIndex]
+            try {
+              if (cell === null && rowIndex > 0) content[rowIndex][cellIndex] = content[rowIndex - 1][cellIndex]
+            } catch (e) {
+              console.log('Error: Data > convertXLSX2js > unMerge cells: ', sheetName, ' row:', rowIndex, ' cell:', cellIndex)
+            }
           })
         })
 
@@ -59,13 +63,32 @@ class Data {
     return this._files
   }
 
-  getAppSheets (appName) {
+  getAppSheets(appName) {
     return this._sheets[appName]
   }
 
-  getAppSheet (appName, sheetName) {
+  getAppSheet(appName, sheetName) {
     const appSheets = this.getAppSheets(appName) || {}
     return appSheets[sheetName]
+  }
+
+  getAppDataByCfg({position, application, config}) {
+    const { sheet, filters, posColumn } = config
+
+    const { header, data } = this.getAppSheet(application, sheet)
+    let rows = [...data]
+
+    // filter rows by position
+    const posColumnIndex = header.findIndex((h) => h === posColumn)
+    if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
+
+    // filter rows by custom filters
+    Object.entries(filters || {}).forEach(([column, value]) => {
+      const columnIndex = header.findIndex((h) => h === column)
+      rows = rows.filter((r) => r[columnIndex] === value)
+    })
+
+    return { rows, header }
   }
 }
 

@@ -51,23 +51,6 @@ module.exports.getCellValue = ({ row = [], header = [], name = '' }) => {
   return row[index]
 }
 
-module.exports.getAppDataByCfg = ({ position, appSheets, config = {} }) => {
-  const { sheet, filters, posColumn } = config
-
-  const header = appSheets[sheet].header
-  let rows = [...appSheets[sheet].data]
-
-  const posColumnIndex = header.findIndex((h) => h === posColumn)
-  if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
-
-  Object.entries(filters || {}).forEach(([name, value]) => {
-    const columnIndex = header.findIndex((h) => h === name)
-    rows = rows.filter((r) => r[columnIndex] === value)
-  })
-
-  return { rows, header }
-}
-
 module.exports.genLink = (linkData) => {
   return Object.entries(linkData).reduce((link, [element, name]) => link + `/@${element}[name='${name}']`, '/')
 }

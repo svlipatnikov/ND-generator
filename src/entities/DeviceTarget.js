@@ -1,7 +1,7 @@
 const Element = require('../entities/Element')
 
 const TARGET = 'TTE_ES_A664_Pro_PMC'
-const FREGAT = 'TTE_EA_A664_T_XMC_F'
+const FREGAT = 'TTE_ES_A664_T_XMC_F'
 const SWITCH = 'TTE_Switch_A664_Lab'
 
 class DeviceTarget extends Element {
@@ -12,24 +12,24 @@ class DeviceTarget extends Element {
   }
 }
 
-const getTargetDevice = (name) => {
-  switch (name) {
-    case 'MDU':
+const getTargetDevice = (target) => {
+  switch (target) {
+    case 'TARGET':
       return TARGET
 
     case 'SWITCH':
       return SWITCH
 
-    case 'NETWORK':
+    case 'FREGAT':
       return FREGAT
 
     default:
-      return name
+      return target
   }
 }
 
-const createDeviceTarget = (name) => {
-  const device = getTargetDevice(name)
+const createDeviceTarget = (target) => {
+  const device = getTargetDevice(target)
 
   return new DeviceTarget(device)
 }

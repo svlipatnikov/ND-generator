@@ -1,15 +1,13 @@
 const { createPeriod } = require('../entities/Period')
 const config = require('../entities/Config')
 const data = require('../entities/Data')
-const { getAppDataByCfg } = require('../helpers')
 
 const genPeriods = (position) => {
   const bags = new Set()
   
   config.applications.forEach((app) => {
-    const vlsConfig = config.getAppVls(app)
-    const appSheets = data.getAppSheets(app)
-    const { header, rows } = getAppDataByCfg({ position, appSheets, config: vlsConfig })
+    const vlsConfig = config.getAppVlsCfg(app)
+    const { header, rows } = data.getAppDataByCfg({ position, application: app, config: vlsConfig })
     const bagIndex = header.findIndex((h) => h === vlsConfig.bag)
     rows.forEach((row) => bags.add(row[bagIndex]))
   })

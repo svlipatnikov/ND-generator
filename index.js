@@ -1,6 +1,4 @@
 const { clearDir } = require('./src/helpers')
-const { readFiles } = require('./src/readFiles')
-const { openSheets } = require('./src/openSheets')
 const { genND } = require('./src/genND')
 const { convertToXML } = require('./src/convertToXML')
 
@@ -8,6 +6,7 @@ const config = require('./src/entities/Config')
 
 console.log('===============')
 console.log('START APP')
+console.log('')
 
 // Check configs
 config.check()

@@ -1,8 +1,7 @@
 const Device = require('../entities/Device')
-const { getAppDataByCfg, getCellValue } = require('../helpers')
+const { getCellValue } = require('../helpers')
 const { createDeviceTarget, TARGET, FREGAT, SWITCH } = require('../entities/DeviceTarget')
 const { createHostInterface } = require('../entities/HostInterface')
-const { createPort } = require('../entities/Port')
 const { createMacInterface } = require('../entities/MacInterface')
 const { createPartition } = require('../entities/Partition')
 const { createDataPort } = require('../entities/DataPort')
@@ -31,21 +30,11 @@ const createDeviceMDU = (deviceName, position) => {
   const ports = genPorts(deviceName)
   device.addChildren(ports)
 
-  const deviceTarget = createDeviceTarget(config.getTarget(deviceName) || TARGET)
-  device.addChild(deviceTarget)
-  
-  const hostInterface = createHostInterface(`${deviceName}_PHOST`)
-  const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
-
-  hostInterface.addChild(macInterface)
-  device.addChild(hostInterface)
-
   config.applications.forEach((applicationName) => {
     const appCode = config.getAppCode(applicationName)
     const partition = createPartition(applicationName, deviceName)
-    const appSheets = data.getAppSheets(applicationName)
-    const portsConfig = config.getAppPorts(applicationName)
-    const { rows, header } = getAppDataByCfg({ position, appSheets, config: portsConfig })
+    const portsConfig = config.getAppPortsCfg(applicationName)
+    const { rows, header } = data.getAppDataByCfg({ position, application: applicationName, config: portsConfig })
 
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
@@ -91,6 +80,15 @@ const createDeviceMDU = (deviceName, position) => {
     device.addChild(partition)
   })
 
+  const deviceTarget = createDeviceTarget(config.getTarget(deviceName) || TARGET)
+  device.addChild(deviceTarget)
+  
+  const hostInterface = createHostInterface(`${deviceName}_PHOST`)
+  const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
+
+  hostInterface.addChild(macInterface)
+  device.addChild(hostInterface)
+
   return device
 }
 
@@ -100,21 +98,12 @@ const createDeviceNETWORK = (deviceName, position) => {
 
   const ports = genPorts(deviceName)
   device.addChildren(ports)
-  
-  const deviceTarget = createDeviceTarget(config.getTarget(deviceName) || FREGAT)
-  device.addChild(deviceTarget)
-
-  const hostInterface = createHostInterface(`${deviceName}_PHOST`)
-  const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
-  hostInterface.addChild(macInterface)
-  device.addChild(hostInterface)
 
   config.applications.forEach((applicationName) => {
     const appCode = config.getAppCode(applicationName)
     const partition = createPartition(applicationName, deviceName)
-    const appSheets = data.getAppSheets(applicationName)
-    const portsConfig = config.getAppPorts(applicationName)
-    const { rows, header } = getAppDataByCfg({ position, appSheets, config: portsConfig })
+    const portsConfig = config.getAppPortsCfg(applicationName)
+    const { rows, header } = data.getAppDataByCfg({ position, application: applicationName, config: portsConfig })
 
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
@@ -159,6 +148,15 @@ const createDeviceNETWORK = (deviceName, position) => {
 
     device.addChild(partition)
   })
+
+  const deviceTarget = createDeviceTarget(config.getTarget(deviceName) || FREGAT)
+  device.addChild(deviceTarget)
+
+  const hostInterface = createHostInterface(`${deviceName}_PHOST`)
+  const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
+  
+  hostInterface.addChild(macInterface)
+  device.addChild(hostInterface)
 
   return device
 }

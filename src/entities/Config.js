@@ -60,9 +60,9 @@ class Config {
     return this.buildConfig.targetDevice[deviceName]
   }
 
-  getApp(appName) {
-    return this.appsConfig[appName]
-  }
+  // getApp(appName) {
+  //   return this.appsConfig[appName]
+  // }
 
   getAppFiles(appName) {
     return this.appsConfig[appName].files
@@ -72,11 +72,11 @@ class Config {
     return this.appsConfig[appName].sheets
   }
 
-  getAppPorts(appName) {
+  getAppPortsCfg(appName) {
     return this.appsConfig[appName].ports
   }
 
-  getAppVls(appName) {
+  getAppVlsCfg(appName) {
     return this.appsConfig[appName].vls
   }
 
