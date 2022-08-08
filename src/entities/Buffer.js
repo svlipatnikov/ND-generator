@@ -1,7 +1,7 @@
 const Element = require('../entities/Element')
 
 const SAMPLING = 'Sampling'
-const QUEUEING = 'Queueing'
+const QUEUING = 'Queuing'
 
 class Buffer extends Element {
   constructor(type) {
@@ -11,16 +11,16 @@ class Buffer extends Element {
 
 const createSamplingBuffer = () => new Buffer(SAMPLING)
 
-const createQueueingBuffer = (bufferDepth) => {
-  const buffer = new Buffer(QUEUEING)
+const createQueuingBuffer = (bufferDepth) => {
+  const buffer = new Buffer(QUEUING)
   buffer.addAttributes({ bufferDepth })
   return buffer
 }
 
-const createBuffer = (type, queue) => {
+const createBuffer = (type, queue = 0) => {
   try {
     if (type === SAMPLING) return createSamplingBuffer()
-    if (type === QUEUEING && Number(queue) > 0) return createQueueingBuffer(queue)
+    if (type === QUEUING && Number(queue) > 0) return createQueuingBuffer(queue)
     throw new Error('')
   } catch (err) {
     console.log('ERROR in createBuffer: ', type, queue)

@@ -95,15 +95,16 @@ class Data {
     try {
       const config = this.config.getAppPortTypesCfg(application)
       const portTypesData = this.getAppDataByCfg({ position, application, config })
+
       return portTypesData.rows.reduce((hash, row) => {
-        const vlLinkIndex = portTypesData.header.indexOf(config.interface)
+        const vlLinkIndex = portTypesData.header.indexOf(config.vlLink)
         const vlLink = row[vlLinkIndex]
         const portSizeIndex = portTypesData.header.indexOf(config.portSize)
         const portSize = row[portSizeIndex]
         const portTypeIndex = portTypesData.header.indexOf(config.portType)
         const portType = row[portTypeIndex]
         const queueIndex = portTypesData.header.indexOf(config.portQueue)
-        const queueSize = row[queueIndex]
+        const queueSize = row[queueIndex] || 0
 
         if (!hash[vlLink]) hash[vlLink] = {}
         hash[vlLink][portSize] = { type: portType, queue: queueSize }

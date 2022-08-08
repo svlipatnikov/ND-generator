@@ -1,0 +1,26 @@
+SET POS_CODE=%1
+
+IF NOT EXIST delivery (
+  MKDIR delivery
+)
+
+IF NOT EXIST delivery\AFDX_Fregat (
+  MKDIR delivery\AFDX_Fregat
+)
+
+IF NOT EXIST delivery\AFDX_Fregat\%POS_CODE% (
+  MKDIR delivery\AFDX_Fregat\%POS_CODE%
+) 
+
+COPY /Y TTE_DATA\CONFIG_%POS_CODE%\NETWORK_PERSEUS_COM_RX_V0.h delivery\AFDX_Fregat\%POS_CODE%
+COPY /Y TTE_DATA\CONFIG_%POS_CODE%\NETWORK_PERSEUS_COM_TX_V0.h delivery\AFDX_Fregat\%POS_CODE%
+COPY /Y TTE_DATA\CONFIG_%POS_CODE%\NETWORK_PERSEUS_COM_RX_V0.hex delivery\AFDX_Fregat\%POS_CODE%
+COPY /Y TTE_DATA\CONFIG_%POS_CODE%\NETWORK_PERSEUS_COM_TX_V0.hex delivery\AFDX_Fregat\%POS_CODE%
+COPY /Y TTE_DATA\CONFIG_%POS_CODE%\NETWORK_PERSEUS_MAC_2P_8ss.hex delivery\AFDX_Fregat\%POS_CODE%
+
+IF NOT EXIST delivery\AFDX_Target (
+  MKDIR delivery\AFDX_Target
+)
+
+COPY /Y TTE_DATA\CONFIG_%POS_CODE%\MDU.h delivery\AFDX_Target\tte_es_conf_%POS_CODE%.h
+COPY /Y TTE_DATA\CONFIG_%POS_CODE%\MDU.bin delivery\AFDX_Target\tte_es_conf_%POS_CODE%.bin

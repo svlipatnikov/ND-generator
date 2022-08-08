@@ -37,7 +37,8 @@ const createDeviceMDU = (deviceName, position) => {
     const portsConfig = config.getAppPortsCfg(applicationName)
     const { rows, header } = data.getAppDataByCfg({ position, application: applicationName, config: portsConfig })
 
-    const portTypesHash = data.getAppPortTypesHash({position, application: applicationName})
+    const portTypesHash = data.getAppPortTypesHash({ position, application: applicationName })
+    if (!portTypesHash) console.log('!!! portTypesHash = null => will be used default port types values!')
 
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
@@ -70,14 +71,18 @@ const createDeviceMDU = (deviceName, position) => {
         ipDestinationAddress,
       })
 
-     // Port type & Port queue size
-     let portType = config.defaultDataPortType
-     let portQueueSize = config.defaultDataPortSize
-     if (!portTypesHash) {
-       portType = portTypesHash[vlLink][maxPayloadSize].type
-       portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
-     }
-     const buffer = createBuffer(portType, portQueueSize)
+      // Port type & Port queue size
+      let portType = config.defaultDataPortType
+      let portQueueSize = config.defaultDataPortSize
+      if (portTypesHash) {
+        try {
+          portType = portTypesHash[vlLink][maxPayloadSize].type
+          portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
+        } catch (err) {
+          console.log('ERROR finding port in portTypesHash: ', vlLink, maxPayloadSize)
+        }
+      }
+      const buffer = createBuffer(portType, portQueueSize)
 
       dataPort.addChild(buffer)
 
@@ -113,7 +118,8 @@ const createDeviceNETWORK = (deviceName, position) => {
     const portsConfig = config.getAppPortsCfg(applicationName)
     const { rows, header } = data.getAppDataByCfg({ position, application: applicationName, config: portsConfig })
 
-    const portTypesHash = data.getAppPortTypesHash({position, application: applicationName})
+    const portTypesHash = data.getAppPortTypesHash({ position, application: applicationName })
+    if (!portTypesHash) console.log('!!! portTypesHash = null => will be used default port types values!')
 
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
@@ -149,9 +155,13 @@ const createDeviceNETWORK = (deviceName, position) => {
       // Port type & Port queue size
       let portType = config.defaultDataPortType
       let portQueueSize = config.defaultDataPortSize
-      if (!portTypesHash) {
-        portType = portTypesHash[vlLink][maxPayloadSize].type
-        portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
+      if (portTypesHash) {
+        try {
+          portType = portTypesHash[vlLink][maxPayloadSize].type
+          portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
+        } catch (err) {
+          console.log('ERROR finding port in portTypesHash: ', vlLink, maxPayloadSize)
+        }
       }
       const buffer = createBuffer(portType, portQueueSize)
 

@@ -1,6 +1,11 @@
 /node_modules
 /data
 /network_description
+/workspace
+/DATA
+/ND_GEN_DATA
+/TTE_DATA
+/delivery
 
 .DU_Store
 .tmp*

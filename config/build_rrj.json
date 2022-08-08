@@ -4,8 +4,8 @@
   },
   "positions": {
     "DU1": "ИМ №1",
-    "DU2": "ИМ №2", 
-    "DU3": "ИМ №3", 
+    "DU2": "ИМ №2",
+    "DU3": "ИМ №3",
     "DU4": "ИМ №4",
     "DU5": "ИМ №5"
   },
@@ -20,7 +20,7 @@
   "marker": "03:00:00:00",
   "networkSourceIp": "10.1.1.1",
   "defaults": {
-    "dataPortType": "Queueing",
+    "dataPortType": "Queuing",
     "dataPortSize": 10,
     "jitter": "1 ms"
   },
