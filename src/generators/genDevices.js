@@ -69,7 +69,7 @@ const createDeviceMDU = (deviceName, position) => {
 
       // TODO find port type and size
       const isQueueingBuffer = true
-      const fifoSize = config.defaultQueueSize
+      const fifoSize = config.defaultDataPortSize
       const buffer = isQueueingBuffer ? createQueueingBuffer(fifoSize) : createSamplingBuffer()
 
       dataPort.addChild(buffer)
@@ -138,7 +138,7 @@ const createDeviceNETWORK = (deviceName, position) => {
 
       // TODO find port type and size
       const isQueueingBuffer = true
-      const fifoSize = config.defaultQueueSize
+      const fifoSize = config.defaultDataPortSize
       const buffer = isQueueingBuffer ? createQueueingBuffer(fifoSize) : createSamplingBuffer()
 
       dataPort.addChild(buffer)

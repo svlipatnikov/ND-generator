@@ -13,7 +13,7 @@ class Flow extends Element {
 }
 
 const createFlow = () => {
-  const jitter = config.defaultJitter || '0 ms'
+  const jitter = config.defaultJitter || '1 ms'
 
   return new Flow(jitter)
 }

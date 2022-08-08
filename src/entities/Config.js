@@ -1,9 +1,9 @@
 const fs = require('fs')
 const { readJSON } = require('../helpers')
 
-class Config {
-  defaultOutPath = './network_description'
+DEFAULT_OUT_PATH = './network_description'
 
+class Config {
   constructor() {
     // Read configs
     this.buildConfig = readJSON('./config/build.json')
@@ -19,11 +19,11 @@ class Config {
   }
 
   get OUT_PATH() {
-    return this.buildConfig.outPath || defaultOutPath
+    return this.buildConfig.outPath || DEFAULT_OUT_PATH
   }
 
-  get defaultQueueSize() {
-    return this.buildConfig.defaultQueueSize
+  get defaultDataPortSize() {
+    return this.buildConfig.defaults.dataPortSize
   }
 
   get marker() {
@@ -31,7 +31,7 @@ class Config {
   }
 
   get defaultJitter() {
-    return this.buildConfig.defaultJitter
+    return this.buildConfig.defaults.jitter
   }
 
   get networkSourceIp() {
