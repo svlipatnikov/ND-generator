@@ -72,7 +72,7 @@ class Data {
     return appSheets[sheetName]
   }
 
-  getAppDataByCfg({position, application, config}) {
+  getAppDataByCfg({ position, application, config }) {
     const { sheet, filters, posColumn } = config
 
     const { header, data } = this.getAppSheet(application, sheet)
@@ -89,6 +89,31 @@ class Data {
     })
 
     return { rows, header }
+  }
+
+  getAppPortTypesHash({ position, application }) {
+    try {
+      const config = this.config.getAppPortTypesCfg(application)
+      const portTypesData = this.getAppDataByCfg({ position, application, config })
+      return portTypesData.rows.reduce((hash, row) => {
+        const vlLinkIndex = portTypesData.header.indexOf(config.interface)
+        const vlLink = row[vlLinkIndex]
+        const portSizeIndex = portTypesData.header.indexOf(config.portSize)
+        const portSize = row[portSizeIndex]
+        const portTypeIndex = portTypesData.header.indexOf(config.portType)
+        const portType = row[portTypeIndex]
+        const queueIndex = portTypesData.header.indexOf(config.portQueue)
+        const queueSize = row[queueIndex]
+
+        if (!hash[vlLink]) hash[vlLink] = {}
+        hash[vlLink][portSize] = { type: portType, queue: queueSize }
+
+        return hash
+      }, {})
+    } catch (err) {
+      console.log('Error in getAppPortTypesHash: ', position, application)
+      return null
+    }
   }
 }
 

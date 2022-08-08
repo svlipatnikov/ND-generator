@@ -5,7 +5,7 @@ const { createHostInterface } = require('../entities/HostInterface')
 const { createMacInterface } = require('../entities/MacInterface')
 const { createPartition } = require('../entities/Partition')
 const { createDataPort } = require('../entities/DataPort')
-const { createQueueingBuffer, createSamplingBuffer }= require('../entities/Buffer')
+const { createBuffer } = require('../entities/Buffer')
 const config = require('../entities/Config')
 const data = require('../entities/Data')
 const { genPorts } = require('./genPorts')
@@ -33,8 +33,11 @@ const createDeviceMDU = (deviceName, position) => {
   config.applications.forEach((applicationName) => {
     const appCode = config.getAppCode(applicationName)
     const partition = createPartition(applicationName, deviceName)
+
     const portsConfig = config.getAppPortsCfg(applicationName)
     const { rows, header } = data.getAppDataByCfg({ position, application: applicationName, config: portsConfig })
+
+    const portTypesHash = data.getAppPortTypesHash({position, application: applicationName})
 
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
@@ -67,10 +70,14 @@ const createDeviceMDU = (deviceName, position) => {
         ipDestinationAddress,
       })
 
-      // TODO find port type and size
-      const isQueueingBuffer = true
-      const fifoSize = config.defaultDataPortSize
-      const buffer = isQueueingBuffer ? createQueueingBuffer(fifoSize) : createSamplingBuffer()
+     // Port type & Port queue size
+     let portType = config.defaultDataPortType
+     let portQueueSize = config.defaultDataPortSize
+     if (!portTypesHash) {
+       portType = portTypesHash[vlLink][maxPayloadSize].type
+       portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
+     }
+     const buffer = createBuffer(portType, portQueueSize)
 
       dataPort.addChild(buffer)
 
@@ -82,7 +89,7 @@ const createDeviceMDU = (deviceName, position) => {
 
   const deviceTarget = createDeviceTarget(config.getTarget(deviceName) || TARGET)
   device.addChild(deviceTarget)
-  
+
   const hostInterface = createHostInterface(`${deviceName}_PHOST`)
   const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
 
@@ -102,8 +109,11 @@ const createDeviceNETWORK = (deviceName, position) => {
   config.applications.forEach((applicationName) => {
     const appCode = config.getAppCode(applicationName)
     const partition = createPartition(applicationName, deviceName)
+
     const portsConfig = config.getAppPortsCfg(applicationName)
     const { rows, header } = data.getAppDataByCfg({ position, application: applicationName, config: portsConfig })
+
+    const portTypesHash = data.getAppPortTypesHash({position, application: applicationName})
 
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
@@ -136,10 +146,14 @@ const createDeviceNETWORK = (deviceName, position) => {
         ipDestinationAddress,
       })
 
-      // TODO find port type and size
-      const isQueueingBuffer = true
-      const fifoSize = config.defaultDataPortSize
-      const buffer = isQueueingBuffer ? createQueueingBuffer(fifoSize) : createSamplingBuffer()
+      // Port type & Port queue size
+      let portType = config.defaultDataPortType
+      let portQueueSize = config.defaultDataPortSize
+      if (!portTypesHash) {
+        portType = portTypesHash[vlLink][maxPayloadSize].type
+        portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
+      }
+      const buffer = createBuffer(portType, portQueueSize)
 
       dataPort.addChild(buffer)
 
@@ -154,7 +168,7 @@ const createDeviceNETWORK = (deviceName, position) => {
 
   const hostInterface = createHostInterface(`${deviceName}_PHOST`)
   const macInterface = createMacInterface(`${deviceName}_MAC`, config.getMac(deviceName, position))
-  
+
   hostInterface.addChild(macInterface)
   device.addChild(hostInterface)
 

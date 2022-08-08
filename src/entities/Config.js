@@ -26,6 +26,10 @@ class Config {
     return this.buildConfig.defaults.dataPortSize
   }
 
+  get defaultDataPortType() {
+    return this.buildConfig.defaults.dataPortType
+  }
+
   get marker() {
     return this.buildConfig.marker || '03:00:00:00'
   }
@@ -36,6 +40,25 @@ class Config {
 
   get networkSourceIp() {
     return this.buildConfig.networkSourceIp
+  }
+
+  check() {
+    try {
+      const dataDir = fs.readdirSync('./data')
+      // Проверка наличия приложений в конфигурации билда
+      if (!this.applications?.length) throw new Error('Applications not defined in ./config/build.json')
+
+      // Проверка наличия папок приложений
+      this.applications.forEach((app) => {
+        if (!dataDir.includes(app)) throw new Error(`App ${app} folder not found in ./data`)
+      })
+      // Проверка наличия данных для приложений в конфиге
+      this.applications.forEach((app) => {
+        if (!this.appsConfig[app]) throw new Error(`App ${app} not found in ./config/apps.json`)
+      })
+    } catch (err) {
+      console.log('CHECK CONFIG ERROR:', err)
+    }
   }
 
   getAppCode(application) {
@@ -60,10 +83,6 @@ class Config {
     return this.buildConfig.targetDevice[deviceName]
   }
 
-  // getApp(appName) {
-  //   return this.appsConfig[appName]
-  // }
-
   getAppFiles(appName) {
     return this.appsConfig[appName].files
   }
@@ -80,23 +99,8 @@ class Config {
     return this.appsConfig[appName].vls
   }
 
-  check() {
-    try {
-      const dataDir = fs.readdirSync('./data')
-      // Проверка наличия приложений в конфигурации билда
-      if (!this.applications?.length) throw new Error('Applications not defined in ./config/build.json')
-
-      // Проверка наличия папок приложений
-      this.applications.forEach((app) => {
-        if (!dataDir.includes(app)) throw new Error(`App ${app} folder not found in ./data`)
-      })
-      // Проверка наличия данных для приложений в конфиге
-      this.applications.forEach((app) => {
-        if (!this.appsConfig[app]) throw new Error(`App ${app} not found in ./config/apps.json`)
-      })
-    } catch (err) {
-      console.log('CHECK CONFIG ERROR:', err)
-    }
+  getAppPortTypesCfg(appName) {
+    return this.appsConfig[appName].portTypes
   }
 }
 

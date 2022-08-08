@@ -43,6 +43,18 @@
       "vlLink": "VL Name"
     },
 
+    "portTypes": {
+      "sheet": "ports",
+      "posColumn": "Connected to Equipment",
+      "filters": {
+        "Interface type": "AFDX"
+      },
+      "portType": "Port Mode",
+      "portSize": "Fifo size",
+      "portQueue": "Fifo size",
+      "vlLink": "Connected to interface"
+    },
+
     "vls": {
       "sheet": "vls",
       "posColumn": "Equipment",
@@ -98,6 +110,18 @@
       "vlLink": "VL Name"
     },
 
+    "portTypes": {
+      "sheet": "ports",
+      "posColumn": "Connected to Equipment",
+      "filters": {
+        "Interface type": "AFDX"
+      },
+      "portType": "Port Mode",
+      "portSize": "Port Size",
+      "portQueue": "Fifo size",
+      "vlLink": "Connected to interface"
+    },
+
     "vls": {
       "sheet": "vls",
       "posColumn": "Equipment",
@@ -151,6 +175,18 @@
       "udpDestinationPort": "Dest UDP",
       "maxPayloadSize": "Size",
       "vlLink": "VL Name"
+    },
+
+    "portTypes": {
+      "sheet": "ports",
+      "posColumn": "Connected to Equipment",
+      "filters": {
+        "Interface type": "AFDX"
+      },
+      "portType": "Port Mode",
+      "portSize": "Port Size",
+      "portQueue": "Fifo size",
+      "vlLink": "Connected to interface"
     },
 
     "vls": {
