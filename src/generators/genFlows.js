@@ -19,38 +19,44 @@ const genFlows = (position, networkDescription) => {
     const maxFrameSizeIndex = header.findIndex((h) => h === vlsConfig.maxFrameSize)
 
     rows.forEach((vlRow) => {
-      const vlLink = vlRow[vlLinkIndex]
-      const vlid = vlRow[vlIdIndex]
-      const bag = vlRow[bagIndex]
-      const maxFrameSize = vlRow[maxFrameSizeIndex]
-      const name = `VL_${vlid}`
-      const vlOutputPorts = outputPortsHashByVl[vlLink]
-      const vlInputPorts = inputPortsHashByVl[vlLink]
+      try {
+        const vlLink = vlRow[vlLinkIndex]
+        const vlid = vlRow[vlIdIndex]
+        const bag = vlRow[bagIndex]
+        const maxFrameSize = vlRow[maxFrameSizeIndex]
+        const name = `VL_${vlid}`
+        const vlOutputPorts = outputPortsHashByVl[vlLink]
+        const vlInputPorts = inputPortsHashByVl[vlLink]
 
-      if (flowNamesSet.has(name)) return
+        if (flowNamesSet.has(name)) return
 
-      const isLoopVl = vlInputPorts.some(({ device }) => device === 'MDU') && vlOutputPorts.some(({ device }) => device === 'MDU')
+        const isLoopVl = vlInputPorts.some(({ device }) => device === 'MDU') && vlOutputPorts.some(({ device }) => device === 'MDU')
 
-      const filteredVlOutputPorts = vlOutputPorts
-        .filter((p) => !isLoopVl || p.device === 'MDU') // no need ports on network device if loop
-        .filter((p) => p.device === vlOutputPorts[0].device && p.partition === vlOutputPorts[0].partition) // only one app can send to vl
+        const filteredVlOutputPorts = vlOutputPorts
+          .filter((p) => !isLoopVl || p.device === 'MDU') // no need ports on network device if loop
+          .filter((p) => p.device === vlOutputPorts[0].device && p.partition === vlOutputPorts[0].partition) // only one app can send to vl
 
-      const filteredVlInputPorts = vlInputPorts
-        .filter((p) => !isLoopVl || p.device === 'MDU') // no need ports on network device if loop
-        .filter((p) => p.device === vlInputPorts[0].device && p.partition === vlInputPorts[0].partition) // for vl receivers on the same device need one input port
+        const filteredVlInputPorts = vlInputPorts
+          .filter((p) => !isLoopVl || p.device === 'MDU') // no need ports on network device if loop
+          .filter((p) => p.device === vlInputPorts[0].device && p.partition === vlInputPorts[0].partition) // for vl receivers on the same device need one input port
 
-      const flow = createFlow()
-      flow.addAttributes({
-        name,
-        sender: filteredVlOutputPorts.map((p) => genLink(p)).join(` `),
-        receivers: filteredVlInputPorts.map((p) => genLink(p)).join(` `),
-        vlid,
-        maxFrameSize: `${maxFrameSize} byte`,
-        bag: networkDescription.getBagLink(bag),
-      })
+        if (!filteredVlOutputPorts.length || !filteredVlOutputPorts.length) throw new Error(`NOT FOUND PORTS FRO VLID ${vlid}`)
 
-      flows.push(flow)
-      flowNamesSet.add(name)
+        const flow = createFlow()
+        flow.addAttributes({
+          name,
+          sender: filteredVlOutputPorts.map((p) => genLink(p)).join(` `),
+          receivers: filteredVlInputPorts.map((p) => genLink(p)).join(` `),
+          vlid,
+          maxFrameSize: `${maxFrameSize} byte`,
+          bag: networkDescription.getBagLink(bag),
+        })
+
+        flows.push(flow)
+        flowNamesSet.add(name)
+      } catch (err) {
+        console.log('ERROR in genFlows: ', position, app, vlid, err)
+      }
     })
   })
 
