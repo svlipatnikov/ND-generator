@@ -26,6 +26,6 @@
     "dataPortSize": 10,
     "jitter": "1 ms"
   },
-  "dataPath": "./data",
-  "outPath": "./network_description"
+  "dataPath": "./DATA",
+  "outPath": "./ND_GEN_DATA"
 }

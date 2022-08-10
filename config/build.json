@@ -1,18 +1,19 @@
 {
   "applications": {
     "DA": "DA",
-    "BITE": "BITE"
+    "CONF": "CONF",
+    "A661": "A661"
   },
   "positions": {
     "DU1": "DUOL",
-    "DU2": "DUIL",
-    "DU3": "DUCD",
+    "DU2": "DUIL", 
+    "DU3": "DUCD", 
     "DU4": "DUIR",
     "DU5": "DUOR"
   },
   "targetDevice": {
     "MDU": "TARGET",
-    "NETWORK": "FREGAT"
+    "NETWORK": "TARGET"
   },
   "macInterface": {
     "MDU": ["02:00:00:04:27:20", "02:00:00:04:26:20", "02:00:00:04:25:20", "02:00:00:04:46:20", "02:00:00:04:47:20"],

@@ -39,7 +39,6 @@ const createDeviceES = (deviceName, position) => {
     const { rows, header } = data.getAppDataByCfg({ position, application: applicationName, config: portsConfig })
 
     const portTypesHash = data.getAppPortTypesHash({ position, application: applicationName })
-    if (!portTypesHash) console.log('!!! portTypesHash = null => will be used default port types values!')
 
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
@@ -57,7 +56,7 @@ const createDeviceES = (deviceName, position) => {
         return isInput ? 'I' : isOutput ? 'O' : undefined
       })(isInput, isOutput, MIRROR)
 
-      const dataPortName = `${dataPortIO}_${appCode}_${afdxPort}`
+      const dataPortName = getCellValue({ row, header, name: portsConfig.portName }) || `${dataPortIO}_${appCode}_${afdxPort}`
 
       if (isOutput && ipSourceAddress) partition.addAttributes({ ipSourceAddress })
 

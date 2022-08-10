@@ -14,12 +14,20 @@ class Config {
     return Object.values(this.buildConfig.applications)
   }
 
+  get appCodes() {
+    return Object.keys(this.buildConfig.applications)
+  }
+
   get positions() {
     return Object.values(this.buildConfig.positions)
   }
 
   get OUT_PATH() {
     return this.buildConfig.outPath || DEFAULT_OUT_PATH
+  }
+
+  get DATA_PATH() {
+    return this.buildConfig.dataPath
   }
 
   get defaultDataPortSize() {
@@ -46,15 +54,15 @@ class Config {
     try {
       const dataDir = fs.readdirSync('./data')
       // Проверка наличия приложений в конфигурации билда
-      if (!this.applications?.length) throw new Error('Applications not defined in ./config/build.json')
+      if (!this.appCodes?.length) throw new Error('Applications not defined in ./config/build.json')
 
       // Проверка наличия папок приложений
-      this.applications.forEach((app) => {
-        if (!dataDir.includes(app)) throw new Error(`App ${app} folder not found in ./data`)
+      this.appCodes.forEach((appCode) => {
+        if (!dataDir.includes(appCode)) throw new Error(`App ${appCode} folder not found in ./data`)
       })
       // Проверка наличия данных для приложений в конфиге
-      this.applications.forEach((app) => {
-        if (!this.appsConfig[app]) throw new Error(`App ${app} not found in ./config/apps.json`)
+      this.appCodes.forEach((appCode) => {
+        if (!this.appsConfig[appCode]) throw new Error(`App ${appCode} not found in ./config/apps.json`)
       })
     } catch (err) {
       console.log('CHECK CONFIG ERROR:', err)

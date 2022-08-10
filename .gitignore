@@ -2,10 +2,12 @@
 /data
 /network_description
 /workspace
+/delivery
+
 /DATA
 /ND_GEN_DATA
 /TTE_DATA
-/delivery
+/DELIVERY
 /.metadata
 
 .DU_Store

@@ -11,12 +11,12 @@ class Data {
   }
 
   readFiles() {
-    this.config.applications.forEach((app) => {
-      this._files[app] = {}
-      const appFiles = config.getAppFiles(app)
+    Object.entries(this.config.buildConfig.applications).forEach(([appCode, appName]) => {
+      this._files[appName] = {}
+      const appFiles = config.getAppFiles(appName)
 
-      Object.keys(appFiles).forEach((fileName) => {
-        this.files[app][fileName] = xlsx.readFile(`${appFiles[fileName]}`)
+      Object.entries(appFiles).forEach(([fileCode, fileName]) => {
+        this.files[appName][fileCode] = xlsx.readFile(this.config.DATA_PATH + '/' + appCode + '/' + fileName)
       })
     })
   }
@@ -112,7 +112,7 @@ class Data {
         return hash
       }, {})
     } catch (err) {
-      console.log('Error in getAppPortTypesHash: ', position, application)
+      console.log('ERROR in getAppPortTypesHash: ', position, application, ' => Will be used default port types values!')
       return null
     }
   }
