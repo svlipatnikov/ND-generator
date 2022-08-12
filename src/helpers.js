@@ -11,10 +11,16 @@ module.exports.readJSON = (path) => {
 }
 
 module.exports.getFileName = (dir, text = '') => {
-  const fileNamesArr = fs.readdirSync(dir)
-  const fileName = fileNamesArr.find((name) => name.includes(text))
-  if (!fileName) throw new Error(`File "${dir}/${text}" not found`)
-  return fileName
+  try {
+    const textLC = text.trim().toLowerCase()
+    const fileNamesArr = fs.readdirSync(dir)
+    const fileName = fileNamesArr.find((name) => name.toLowerCase().includes(textLC))
+    if (!fileName) throw new Error(`File "${dir}/${text}" not found`)
+    return fileName
+  } catch (e) {
+    console.log(`ERROR in "getFileName": File with text "${text}" in: `, dir)
+    return null
+  }
 }
 
 module.exports.getSheetContent = (data, headerIndex = 1) => {
@@ -53,4 +59,25 @@ module.exports.getCellValue = ({ row = [], header = [], name = '' }) => {
 
 module.exports.genLink = (linkData) => {
   return Object.entries(linkData).reduce((link, [element, name]) => link + `/@${element}[name='${name}']`, '/')
+}
+
+module.exports.decodeHFile = (file) => {
+  try {
+    return file
+      .toString()
+      .split('\r\n')
+      .filter((row) => !!row)
+      .map((row) => row.split(' ').filter((c) => !!c))
+  } catch (e) {
+    console.log('Error decoding .h file')
+    return
+  }
+}
+
+module.exports.getPortsArr = (rows, IO) => {
+
+  return rows.map(row => {
+    const [, portName, portNumber] = row
+    return `X${IO}P_${portName.split('_').at(-1)} = ${portNumber}` + "\r\n"
+  })
 }
