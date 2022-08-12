@@ -75,9 +75,8 @@ module.exports.decodeHFile = (file) => {
 }
 
 module.exports.getPortsArr = (rows, IO) => {
-
-  return rows.map(row => {
+  return rows.map((row) => {
     const [, portName, portNumber] = row
-    return `X${IO}P_${portName.split('_').at(-1)} = ${portNumber}` + "\r\n"
+    return `X${IO}P_${portName.split('_')[portName.split('_').length - 1]} = ${portNumber}` + '\r\n'
   })
 }
