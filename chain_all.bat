@@ -9,3 +9,5 @@ CALL chain.bat DU4
 CALL chain.bat DU5
 
 node index-gen-x2p.js
+
+node index-gen-fregat.js

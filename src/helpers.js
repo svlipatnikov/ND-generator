@@ -61,6 +61,27 @@ module.exports.genLink = (linkData) => {
   return Object.entries(linkData).reduce((link, [element, name]) => link + `/@${element}[name='${name}']`, '/')
 }
 
+module.exports.decodeVl2PortsFile = (file) => {
+  try {
+    return file
+      .toString()
+      .split('\r\n')
+      .filter((row) => !!row)
+      .map((row) => {
+        const [portCode, ttePortNumber] = row.split(' = ')
+        const [prefix, afdxPort] = portCode.split('_')
+        return {
+          IO: prefix === 'XIP' ? 'I' : prefix === 'XOP' ? 'O' : undefined,
+          ttePortNumber,
+          afdxPort,
+        }
+      })
+  } catch (e) {
+    console.log('Error decoding vl2ports.utst file')
+    return
+  }
+}
+
 module.exports.decodeHFile = (file) => {
   try {
     return file

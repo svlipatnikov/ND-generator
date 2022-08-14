@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { readJSON } = require('../helpers')
 
-DEFAULT_OUT_PATH = './network_description'
+DEFAULT_OUT_PATH = './deliverys'
 
 class Config {
   constructor() {

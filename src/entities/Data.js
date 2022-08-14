@@ -116,6 +116,24 @@ class Data {
       return null
     }
   }
+
+  getMesSizeHash(posCode) {
+    const posName = this.config.buildConfig.positions[posCode]
+    const mesSizeHash = {}
+    this.config.applications.forEach((appName) => {
+      const portsConfig = config.getAppPortsCfg(appName)
+      const { rows, header } = this.getAppDataByCfg({ position: posName, application: appName, config: portsConfig })
+      const mesSizeIndex = header.indexOf(portsConfig.maxPayloadSize)
+      const afdxPortIndex = header.indexOf(portsConfig.udpDestinationPort)
+
+      rows.forEach((row) => {
+        const mesSize = row[mesSizeIndex]
+        const afdxPort = row[afdxPortIndex]
+        mesSizeHash[afdxPort] = mesSize
+      })
+    })
+    return mesSizeHash
+  }
 }
 
 const data = new Data(config)

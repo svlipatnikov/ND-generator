@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { getFileName, decodeHFile, getPortsFromHFile, getPortsHash, getPortsArr } = require('./src/helpers')
+const { getFileName, decodeHFile, getPortsArr } = require('./src/helpers')
 
 console.log('===============')
 console.log('START gen-x2p-app')
