@@ -5,7 +5,7 @@ const { createHostInterface } = require('../entities/HostInterface')
 const { createMacInterface } = require('../entities/MacInterface')
 const { createPartition } = require('../entities/Partition')
 const { createDataPort } = require('../entities/DataPort')
-const { createBuffer } = require('../entities/Buffer')
+const { createBuffer, SAMPLING } = require('../entities/Buffer')
 const config = require('../entities/Config')
 const data = require('../entities/Data')
 const { genPorts } = require('./genPorts')
@@ -51,20 +51,20 @@ const createDeviceES = (deviceName, position) => {
       const vlLink = getCellValue({ row, header, name: portsConfig.vlLink })
       const afdxPort = isOutput ? udpSourcePort : isInput ? udpDestinationPort : undefined
 
-      const dataPortIO = (function(isInput, isOutput, MIRROR) {
+      const dataPortIO = (function (isInput, isOutput, MIRROR) {
         if (MIRROR) return isInput ? 'O' : isOutput ? 'I' : undefined
         return isInput ? 'I' : isOutput ? 'O' : undefined
       })(isInput, isOutput, MIRROR)
 
       const dataPortName = getCellValue({ row, header, name: portsConfig.portName }) || `${dataPortIO}_${appCode}_${afdxPort}`
 
-      if (isOutput && ipSourceAddress) partition.addAttributes({ ipSourceAddress })
+      if (isOutput && ipSourceAddress && !MIRROR) partition.addAttributes({ ipSourceAddress })
 
       if (!afdxPort) return
 
       if (partition.dataPortsSet.has(dataPortName)) return
 
-      const portDirection = (function(isInput, isOutput, MIRROR) {
+      const portDirection = (function (isInput, isOutput, MIRROR) {
         if (!isInput && !isOutput) return undefined
         if (MIRROR) return isInput ? 'TxComUdpPort' : 'RxComUdpPort'
         return isInput ? 'RxComUdpPort' : 'TxComUdpPort'
@@ -85,7 +85,12 @@ const createDeviceES = (deviceName, position) => {
       // Port type & Port queue size
       let portType = config.defaultDataPortType
       let portQueueSize = config.defaultDataPortSize
-      if (portTypesHash) {
+
+      if (MIRROR && isInput) {
+        // all output ports for network - sampling
+        portType = SAMPLING
+        portQueueSize = 1
+      } else if (portTypesHash) {
         try {
           portType = portTypesHash[vlLink][maxPayloadSize].type
           portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
@@ -93,6 +98,7 @@ const createDeviceES = (deviceName, position) => {
           console.log('ERROR finding port in portTypesHash: ', vlLink, maxPayloadSize)
         }
       }
+
       const buffer = createBuffer(portType, portQueueSize)
 
       dataPort.addChild(buffer)

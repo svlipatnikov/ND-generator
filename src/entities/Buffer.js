@@ -27,4 +27,4 @@ const createBuffer = (type, queue = 0) => {
   }
 }
 
-module.exports = { Buffer, createBuffer }
+module.exports = { Buffer, createBuffer, SAMPLING, QUEUEING }

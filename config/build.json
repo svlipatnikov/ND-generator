@@ -20,7 +20,7 @@
   "marker": "03:00:00:00",
   "networkSourceIp": "10.1.1.1",
   "defaults": {
-    "dataPortType": "Sampling",
+    "dataPortType": "Queueing",
     "dataPortSize": 10,
     "jitter": "1 ms"
   },
