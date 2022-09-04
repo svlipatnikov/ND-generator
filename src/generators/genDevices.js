@@ -58,7 +58,9 @@ const createDeviceES = (deviceName, position) => {
 
       const dataPortName = getCellValue({ row, header, name: portsConfig.portName }) || `${dataPortIO}_${appCode}_${afdxPort}`
 
-      if (isOutput && ipSourceAddress && !MIRROR) partition.addAttributes({ ipSourceAddress })
+      if (isOutput && ipSourceAddress) {
+        MIRROR ? partition.addAttributes({ ipSourceAddress: config.networkSourceIp }) : partition.addAttributes({ ipSourceAddress })
+      }
 
       if (!afdxPort) return
 
