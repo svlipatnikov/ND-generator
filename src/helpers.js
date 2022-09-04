@@ -95,9 +95,11 @@ module.exports.decodeHFile = (file) => {
   }
 }
 
-module.exports.getPortsArr = (rows, IO) => {
+module.exports.getPortsArr = (rows, portNameHash, IO) => {
   return rows.map((row) => {
-    const [, portName, portNumber] = row
-    return `X${IO}P_${portName.split('_')[portName.split('_').length - 1]} = ${portNumber}` + '\r\n'
+    const [, ttePortName, portNumber] = row
+    const portName = ttePortName.slice(ttePortName.indexOf('_') + 1)
+    const afdxPort = portNameHash[portName]
+    return `X${IO}P_${afdxPort} = ${portNumber}` + '\r\n'
   })
 }

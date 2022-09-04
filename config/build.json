@@ -22,7 +22,7 @@
   "defaults": {
     "dataPortType": "Queueing",
     "dataPortSize": 10,
-    "jitter": "1 ms"
+    "jitter": "5 ms"
   },
   "dataPath": "./DATA",
   "outPath": "./ND_GEN_DATA"

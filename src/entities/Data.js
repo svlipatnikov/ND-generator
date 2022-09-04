@@ -123,6 +123,7 @@ class Data {
     this.config.applications.forEach((appName) => {
       const portsConfig = config.getAppPortsCfg(appName)
       const { rows, header } = this.getAppDataByCfg({ position: posName, application: appName, config: portsConfig })
+
       const mesSizeIndex = header.indexOf(portsConfig.maxPayloadSize)
       const afdxPortIndex = header.indexOf(portsConfig.udpDestinationPort)
 
@@ -133,6 +134,25 @@ class Data {
       })
     })
     return mesSizeHash
+  }
+
+  getPortNameHash(posCode) {
+    const posName = this.config.buildConfig.positions[posCode]
+    const posNameHash = {}
+    this.config.applications.forEach((appName) => {
+      const portsConfig = config.getAppPortsCfg(appName)
+      const { rows, header } = this.getAppDataByCfg({ position: posName, application: appName, config: portsConfig })
+
+      const portNameIndex = header.indexOf(portsConfig.portName)
+      const afdxPortIndex = header.indexOf(portsConfig.udpDestinationPort)
+
+      rows.forEach((row) => {
+        const portName = row[portNameIndex]
+        const afdxPort = row[afdxPortIndex]
+        posNameHash[portName] = afdxPort
+      })
+    })
+    return posNameHash
   }
 }
 
