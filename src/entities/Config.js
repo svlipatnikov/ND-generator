@@ -79,11 +79,11 @@ class Config {
   }
 
   getPosNum(position) {
-    return this.positions.findIndex((p) => p === position) + 1
+    return this.positions.indexOf(position) + 1
   }
 
   getMac(deviceName, position) {
-    const index = this.positions.findIndex((p) => p === position)
+    const index = this.positions.indexOf(position)
     return this.buildConfig.macInterface[deviceName][index]
   }
 

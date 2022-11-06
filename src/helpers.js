@@ -52,7 +52,7 @@ module.exports.saveFile = (path, positionCode, file) => {
 }
 
 module.exports.getCellValue = ({ row = [], header = [], name = '' }) => {
-  const index = header.indexof(name)
+  const index = header.indexOf(name)
   if (index === -1) return undefined
   return row[index]
 }
@@ -104,12 +104,12 @@ module.exports.getPortsArr = (rows, portNameHash, IO) => {
   })
 }
 
-module.exports.stringifyParams = (params) => {  
+module.exports.stringifyParams = (params) => {
   return Object.entries(params).reduce((acc, [key, value]) => acc + `${key}=${value} `, '')
 }
 
 const BAGS = [1, 2, 4, 8, 16, 32, 64, 128]
 module.exports.bagOptimizer = (bag) => {
   if (BAGS.includes(bag)) return bag
-  return BAGS.find(b => b > bag) || 128
-} 
+  return BAGS.find((b) => b > bag) || 128
+}

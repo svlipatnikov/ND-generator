@@ -38,8 +38,6 @@ const createDeviceES = (deviceName, position) => {
     const portsConfig = config.getAppPortsCfg(application)
     const { rows, header } = data.getAppDataByCfg({ position, application, config: portsConfig })
 
-    const portTypesHash = data.getAppPortTypesHash({ position, application })
-
     rows.forEach((row) => {
       const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
       const isInput = getCellValue({ row, header, name: portsConfig.isInput.column }) === portsConfig.isInput.value
@@ -48,6 +46,8 @@ const createDeviceES = (deviceName, position) => {
       const ipDestinationAddress = getCellValue({ row, header, name: portsConfig.ipDestinationAddress })
       const udpDestinationPort = getCellValue({ row, header, name: portsConfig.udpDestinationPort })
       const maxPayloadSize = getCellValue({ row, header, name: portsConfig.maxPayloadSize })
+      const portType = getCellValue({ row, header, name: portsConfig.portType })
+      const portQueueSize = getCellValue({ row, header, name: portsConfig.portQueueSize })
       const vlLink = getCellValue({ row, header, name: portsConfig.vlLink })
       const afdxPort = isOutput ? udpSourcePort : isInput ? udpDestinationPort : undefined
 
@@ -59,7 +59,7 @@ const createDeviceES = (deviceName, position) => {
       const dataPortName = getCellValue({ row, header, name: portsConfig.portName }) || `${dataPortIO}_${appCode}_${afdxPort}`
 
       if (isOutput && ipSourceAddress) {
-       partition.addAttributes({ ipSourceAddress:  MIRROR ? config.networkSourceIp : ipSourceAddress })
+        partition.addAttributes({ ipSourceAddress: MIRROR ? config.networkSourceIp : ipSourceAddress })
       }
 
       // if (!afdxPort) return
@@ -82,7 +82,8 @@ const createDeviceES = (deviceName, position) => {
         udpDestinationPort,
         ipDestinationAddress,
         MIRROR,
-        portTypesHash,
+        portType,
+        portQueueSize,
       })
 
       if (dataPort) {

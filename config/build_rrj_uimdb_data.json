@@ -20,7 +20,7 @@
   "marker": "03:00:00:00",
   "networkSourceIp": "10.4.34.19",
   "defaults": {
-    "dataPortType": "Queueing",
+    "dataPortType": "Queuing",
     "dataPortSize": 10,
     "jitter": "5 ms"
   },

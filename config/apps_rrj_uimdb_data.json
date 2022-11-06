@@ -14,7 +14,7 @@
       },
       "apiPorts": {
         "file": "pdt",
-        "name": "Oпределение API портов",
+        "name": "Определение API портов",
         "headerRowNumber": 5
       }
     },
@@ -33,21 +33,22 @@
         "column": "I/O",
         "value": "I"
       },
-      "ipSourceAddress": {
-        "afdx": "IP Источника"
+      "portName": "Port Name",
+      "extra": {
+        "sheet": "afdx",
+        "mapping": {
+          "Connected to interface": "Название сообщения"
+        },
+        "columns": ["IP Источника", "UDP источника", "IP Приемника", "UDP приемника", "Port Mode", "Fifo size", "VL ID"]
       },
-      "udpSourcePort": {
-        "afdx": "UDP источника"
-      },
-      "ipDestinationAddress": {
-        "afdx": "IP Приемника"
-      },
-      "udpDestinationPort": {
-        "afdx": "UDP приемника"
-      },
+      "ipSourceAddress": "IP Источника",
+      "udpSourcePort": "UDP источника",
+      "ipDestinationAddress": "IP Приемника",
+      "udpDestinationPort": "UDP приемника",
       "maxPayloadSize": "Port Size",
-      "vlLink": "VL ID",
-      "portName": "Port Name"
+      "portType": "Port Mode",
+      "portQueueSize": "Fifo size",
+      "vlLink": "VL ID"
     },
 
     "vls": {

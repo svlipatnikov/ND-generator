@@ -1,4 +1,5 @@
 const { stringifyParams } = require('../helpers')
+const { createBuffer, SAMPLING } = require('./Buffer')
 const Element = require('./Element')
 
 class DataPort extends Element {
@@ -37,7 +38,8 @@ const createDataPort = ({
   udpDestinationPort,
   ipDestinationAddress,
   MIRROR,
-  portTypesHash,
+  portType,
+  portQueueSize,
 }) => {
   try {
     if (
@@ -48,7 +50,9 @@ const createDataPort = ({
       !maxPayloadSize ||
       !udpSourcePort ||
       !udpDestinationPort ||
-      !ipDestinationAddress
+      !ipDestinationAddress ||
+      !portType ||
+      !portQueueSize
     ) {
       throw new Error('DATA PORT NOT CREATED:')
     }
@@ -56,6 +60,7 @@ const createDataPort = ({
     const dataPort = new DataPort(dataPortName)
     dataPort.vlLink = vlLink
     dataPort.io = dataPortIO
+
     dataPort.addAttributes({
       'xsi:type': `logical:${portDirection}`,
       maxPayloadSize: `${maxPayloadSize} byte`,
@@ -64,31 +69,27 @@ const createDataPort = ({
       ipDestinationAddress,
     })
 
-    // Port type & Port queue size
-    let portType = config.defaultDataPortType
-    let portQueueSize = config.defaultDataPortSize
-
-    if (MIRROR && isInput) {
-      // all output ports for network - sampling
-      portType = SAMPLING
-      portQueueSize = 1
-    } else if (portTypesHash) {
-      try {
-        portType = portTypesHash[vlLink][maxPayloadSize].type
-        portQueueSize = portTypesHash[vlLink][maxPayloadSize].queue
-      } catch (err) {
-        console.log('ERROR finding port in portTypesHash: ', vlLink, maxPayloadSize)
-      }
-    }
-
-    const buffer = createBuffer(portType, portQueueSize)
+    // all output ports for network - sampling
+    const isOutputNetworkPort = MIRROR && dataPortIO === 'O'
+    const portMode = isOutputNetworkPort ? SAMPLING : portType || config.defaultDataPortType
+    const portFifo = isOutputNetworkPort ? 1 : portQueueSize || config.defaultDataPortSize
+    const buffer = createBuffer(portMode, portFifo)
     dataPort.addChild(buffer)
-    
+
     return dataPort
   } catch (e) {
     console.log(
       e.message,
-      stringifyParams({ dataPortName, portDirection, vlLink, maxPayloadSize, udpSourcePort, udpDestinationPort, ipDestinationAddress })
+      stringifyParams({
+        dataPortName,
+        portDirection,
+        maxPayloadSize,
+        udpSourcePort,
+        udpDestinationPort,
+        ipDestinationAddress,
+        portType,
+        portQueueSize,
+      })
     )
   }
 }

@@ -1,53 +1,59 @@
 {
   "ИМ": {
     "files": {
-      "f_vls": "ICD VLs MDU 1-5 08.09.2022.xlsx",
-      "f_msg": "ICD Msg MDU 1-5 08.09.2022.xlsx"
+      "vls": "ICD VLs MDU 1-5 08.09.2022.xlsx",
+      "msg": "ICD Msg MDU 1-5 08.09.2022.xlsx",
+      "pdt": "PDT_SSJ_NEW (05.11.22)_lip.xls"
     },
 
     "sheets": {
-      "vls": {
-        "file": "f_vls",
+      "afdx": {
+        "file": "vls",
         "name": "Лист1",
         "headerRowNumber": 1
       },
-      "msg": {
-        "file": "f_msg",
-        "name": "Лист1",
-        "headerRowNumber": 1
+      "apiPorts": {
+        "file": "pdt",
+        "name": "Определение API портов",
+        "headerRowNumber": 5
       }
     },
 
     "ports": {
-      "sheet": "vls",
-      "posColumn": [
-        "Оборудование источник",
-        "Оборудование приемник"
-      ],
-      "filters": {},
+      "sheet": "apiPorts",
+      "posColumn": "Connected to Equipment",
+      "filters": {
+        "Interface type": "AFDX"
+      },
       "isOutput": {
-        "column": "Система источник",
-        "value": "ИМ"
+        "column": "I/O",
+        "value": "O"
       },
       "isInput": {
-        "column": "Система приемник",
-        "value": "ИМ"
+        "column": "I/O",
+        "value": "I"
+      },
+      "portName": "Port Name",
+      "extra": {
+        "sheet": "afdx",
+        "mapping": {
+          "Connected to interface": "Название сообщения"
+        },
+        "columns": ["IP Источника", "UDP источника", "IP Приемника", "UDP приемника", "Port Mode", "Fifo size", "VL ID"]
       },
       "ipSourceAddress": "IP Источника",
       "udpSourcePort": "UDP источника",
       "ipDestinationAddress": "IP Приемника",
       "udpDestinationPort": "UDP приемника",
-      "maxPayloadSize": "Максимальный размер сообщения, байт",
-      "vlLink": "VL ID",
-      "portName": "Наименование порта"
+      "maxPayloadSize": "Port Size",
+      "portType": "Port Mode",
+      "portQueueSize": "Fifo size",
+      "vlLink": "VL ID"
     },
 
     "vls": {
-      "sheet": "vls",
-      "posColumn": [
-        "Оборудование источник",
-        "Оборудование приемник"
-      ],
+      "sheet": "afdx",
+      "posColumn": ["Оборудование приемник", "Оборудование источник"],
       "filters": {},
       "bag": "BAG",
       "id": "VL ID",
