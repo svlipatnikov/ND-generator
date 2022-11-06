@@ -1,27 +1,36 @@
 {
   "ИМ": {
     "files": {
-      "vls_msg": "ICD VLs & Msg DU1-5 10.08.2022 (УКБП)_lip.xlsx"
+      "f_vls": "ICD VLs MDU 1-5 08.09.2022.xlsx",
+      "f_msg": "ICD Msg MDU 1-5 08.09.2022.xlsx"
     },
 
     "sheets": {
-      "afdx": {
-        "file": "vls_msg",
+      "vls": {
+        "file": "f_vls",
+        "name": "Лист1",
+        "headerRowNumber": 1
+      },
+      "msg": {
+        "file": "f_msg",
         "name": "Лист1",
         "headerRowNumber": 1
       }
     },
 
     "ports": {
-      "sheet": "afdx",
-      "posColumn": "Индикатор",
+      "sheet": "vls",
+      "posColumn": [
+        "Оборудование источник",
+        "Оборудование приемник"
+      ],
       "filters": {},
       "isOutput": {
-        "column": "Приложение источник",
+        "column": "Система источник",
         "value": "ИМ"
       },
       "isInput": {
-        "column": "Приложение приемник",
+        "column": "Система приемник",
         "value": "ИМ"
       },
       "ipSourceAddress": "IP Источника",
@@ -34,8 +43,11 @@
     },
 
     "vls": {
-      "sheet": "afdx",
-      "posColumn": "Индикатор",
+      "sheet": "vls",
+      "posColumn": [
+        "Оборудование источник",
+        "Оборудование приемник"
+      ],
       "filters": {},
       "bag": "BAG",
       "id": "VL ID",

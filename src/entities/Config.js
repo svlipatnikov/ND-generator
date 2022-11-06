@@ -61,7 +61,7 @@ class Config {
         if (!dataDir.includes(appCode)) throw new Error(`App ${appCode} folder not found in ./data`)
       })
       // Проверка наличия данных для приложений в конфиге
-      this.appCodes.forEach((appCode) => {
+      this.applications.forEach((appCode) => {
         if (!this.appsConfig[appCode]) throw new Error(`App ${appCode} not found in ./config/apps.json`)
       })
     } catch (err) {

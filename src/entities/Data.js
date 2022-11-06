@@ -79,8 +79,18 @@ class Data {
     let rows = [...data]
 
     // filter rows by position
-    const posColumnIndex = header.findIndex((h) => h === posColumn)
-    if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
+    if (typeof posColumn === 'object') {
+      rows = rows.filter((r) =>
+        posColumn.some((posHeader) => {
+          const posColumnIndex = header.findIndex((h) => h === posHeader)
+          return r[posColumnIndex] === position 
+        })
+      )
+    }
+    if (typeof posColumn === 'string') {
+      const posColumnIndex = header.findIndex((h) => h === posColumn)
+      if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
+    }
 
     // filter rows by custom filters
     Object.entries(filters || {}).forEach(([column, value]) => {

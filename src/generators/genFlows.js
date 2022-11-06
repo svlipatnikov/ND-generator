@@ -17,7 +17,7 @@ const genFlows = (position, networkDescription) => {
     const vlIdIndex = header.findIndex((h) => h === vlsConfig.id)
     const bagIndex = header.findIndex((h) => h === vlsConfig.bag)
     const maxFrameSizeIndex = header.findIndex((h) => h === vlsConfig.maxFrameSize)
-
+    
     rows.forEach((vlRow) => {
       try {
         const vlLink = vlRow[vlLinkIndex]
@@ -28,6 +28,8 @@ const genFlows = (position, networkDescription) => {
         const vlOutputPorts = outputPortsHashByVl[vlLink]
         const vlInputPorts = inputPortsHashByVl[vlLink]
 
+        if (!vlOutputPorts) return
+        if (!vlInputPorts) return
         if (flowNamesSet.has(name)) return
 
         const isLoopVl = vlInputPorts.some(({ device }) => device === 'MDU') && vlOutputPorts.some(({ device }) => device === 'MDU')
@@ -55,7 +57,7 @@ const genFlows = (position, networkDescription) => {
         flows.push(flow)
         flowNamesSet.add(name)
       } catch (err) {
-        console.log('ERROR in genFlows: ', position, app, vlid, err)
+        console.log('ERROR in genFlows: ', position, app, err)
       }
     })
   })

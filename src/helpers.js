@@ -103,3 +103,7 @@ module.exports.getPortsArr = (rows, portNameHash, IO) => {
     return `X${IO}P_${afdxPort} = ${portNumber}` + '\r\n'
   })
 }
+
+module.exports.stringifyParams = (params) => {  
+  return Object.entries(params).reduce((acc, [key, value]) => acc + `${key}=${value} `, '')
+}
