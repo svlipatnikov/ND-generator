@@ -1,7 +1,7 @@
 const config = require('../entities/Config')
 const data = require('../entities/Data')
 const { createFlow } = require('../entities/Flow')
-const { genLink } = require('../helpers')
+const { genLink, bagOptimizer } = require('../helpers')
 
 const genFlows = (position, networkDescription) => {
   const flows = []
@@ -22,7 +22,7 @@ const genFlows = (position, networkDescription) => {
       try {
         const vlLink = vlRow[vlLinkIndex]
         const vlid = vlRow[vlIdIndex]
-        const bag = vlRow[bagIndex]
+        const bag = bagOptimizer(vlRow[bagIndex])
         const maxFrameSize = vlRow[maxFrameSizeIndex]
         const name = `VL_${vlid}`
         const vlOutputPorts = outputPortsHashByVl[vlLink]

@@ -79,16 +79,16 @@ class Data {
     let rows = [...data]
 
     // filter rows by position
-    if (typeof posColumn === 'object') {
+    if (typeof posColumn === 'object') { // array of strings
       rows = rows.filter((r) =>
-        posColumn.some((posHeader) => {
-          const posColumnIndex = header.findIndex((h) => h === posHeader)
-          return r[posColumnIndex] === position 
+        posColumn.some((posTitle) => {
+          const posTitleIndex = header.indexof(posTitle)
+          return r[posTitleIndex] === position 
         })
       )
     }
     if (typeof posColumn === 'string') {
-      const posColumnIndex = header.findIndex((h) => h === posColumn)
+      const posColumnIndex = header.indexof(posColumn)
       if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
     }
 
