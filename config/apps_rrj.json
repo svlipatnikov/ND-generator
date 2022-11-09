@@ -26,12 +26,10 @@
         "Interface type": "AFDX"
       },
       "isOutput": {
-        "column": "I/O",
-        "value": "O"
+        "I/O": "O"
       },
       "isInput": {
-        "column": "I/O",
-        "value": "I"
+        "I/O": "I"
       },
       "portName": "Port Name",
       "extra": {

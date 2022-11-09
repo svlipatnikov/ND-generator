@@ -39,8 +39,10 @@ const createDeviceES = (deviceName, position) => {
     const { rows, header } = data.getAppDataByCfg({ position, application, config: portsConfig })
 
     rows.forEach((row) => {
-      const isOutput = getCellValue({ row, header, name: portsConfig.isOutput.column }) === portsConfig.isOutput.value
-      const isInput = getCellValue({ row, header, name: portsConfig.isInput.column }) === portsConfig.isInput.value
+      const [outputColumn, outputValue] = Object.entries(portsConfig.isOutput)[0]
+      const isOutput = getCellValue({ row, header, name: outputColumn }) === outputValue
+      const [inputColumn, inputValue] = Object.entries(portsConfig.isInput)[0]
+      const isInput = getCellValue({ row, header, name: inputColumn }) === inputValue
       const ipSourceAddress = getCellValue({ row, header, name: portsConfig.ipSourceAddress })
       const udpSourcePort = getCellValue({ row, header, name: portsConfig.udpSourcePort })
       const ipDestinationAddress = getCellValue({ row, header, name: portsConfig.ipDestinationAddress })
@@ -61,8 +63,6 @@ const createDeviceES = (deviceName, position) => {
       if (isOutput && ipSourceAddress) {
         partition.addAttributes({ ipSourceAddress: MIRROR ? config.networkSourceIp : ipSourceAddress })
       }
-
-      // if (!afdxPort) return
 
       if (partition.dataPortsSet.has(dataPortName)) return
 
