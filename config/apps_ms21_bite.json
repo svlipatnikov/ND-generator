@@ -1,71 +1,4 @@
 {
-  "DA": {
-    "files": {
-      "sid": "KAHT.IDS21.14.021-16 Д(С) SID ФПО DA.xlsx",
-      "pdt": "Port_Definition_Table_DA_13.xls"
-    },
-
-    "sheets": {
-      "messages": {
-        "file": "sid",
-        "name": "AFDX Message Definition",
-        "headerRowNumber": 9
-      },
-      "vls": {
-        "file": "sid",
-        "name": "AFDX VL Definition",
-        "headerRowNumber": 11
-      },
-      "ports": {
-        "file": "pdt",
-        "name": "Определение API портов",
-        "headerRowNumber": 6
-      }
-    },
-
-    "ports": {
-      "sheet": "messages",
-      "posColumn": "Equipment",
-      "filters": {},
-      "isOutput": {
-        "column": "I/0",
-        "value": "O"
-      },
-      "isInput": {
-        "column": "I/0",
-        "value": "I"
-      },
-      "ipSourceAddress": "IP",
-      "udpSourcePort": "UDP",
-      "ipDestinationAddress": "dest IP",
-      "udpDestinationPort": "Dest UDP",
-      "maxPayloadSize": "Size",
-      "vlLink": "VL Name"
-    },
-
-    "portTypes": {
-      "sheet": "ports",
-      "posColumn": "Connected to Equipment",
-      "filters": {
-        "Interface type": "AFDX"
-      },
-      "portType": "Port Mode",
-      "portSize": "Port Size",
-      "portQueue": "Fifo size",
-      "vlLink": "Connected to interface"
-    },
-
-    "vls": {
-      "sheet": "vls",
-      "posColumn": "Equipment",
-      "filters": {},
-      "bag": "Bandwidth",
-      "id": "Identity",
-      "maxFrameSize": "Max Frame Size",
-      "vlLink": "Vl Name"
-    }
-  },
-
   "BITE": {
     "files": {
       "sid": "KAHT.IDS21.20.183-01A Д(С) SID ФПО BITE.xlsx",
@@ -91,35 +24,104 @@
     },
 
     "ports": {
-      "sheet": "messages",
-      "posColumn": "Equipment",
-      "filters": {},
-      "isOutput": {
-        "column": "I/0",
-        "value": "O"
-      },
-      "isInput": {
-        "column": "I/0",
-        "value": "I"
-      },
-      "ipSourceAddress": "IP",
-      "udpSourcePort": "UDP",
-      "ipDestinationAddress": "dest IP",
-      "udpDestinationPort": "Dest UDP",
-      "maxPayloadSize": "Size",
-      "vlLink": "VL Name"
-    },
-
-    "portTypes": {
       "sheet": "ports",
       "posColumn": "Connected to Equipment",
       "filters": {
         "Interface type": "AFDX"
       },
+      "isOutput": {
+        "column": "I/O",
+        "value": "O"
+      },
+      "isInput": {
+        "column": "I/O",
+        "value": "I"
+      },
+      "portName": "Port Name",
+      "maxPayloadSize": "Port Size",
+      "vlLink": "Connected to interface",
       "portType": "Port Mode",
-      "portSize": "Port Size",
-      "portQueue": "Fifo size",
-      "vlLink": "Connected to interface"
+      "portQueueSize": "Fifo size",
+      "extra": {
+        "sheet": "messages",
+        "mapping": {
+          "Connected to interface": "VL Name",
+          "Port Size": "Size"
+        },
+        "columns": ["IP", "UDP", "dest IP", "Dest UDP"]
+      },
+      "ipSourceAddress": "IP",
+      "udpSourcePort": "UDP",
+      "ipDestinationAddress": "dest IP",
+      "udpDestinationPort": "Dest UDP"
+    },
+
+    "vls": {
+      "sheet": "vls",
+      "posColumn": "Equipment",
+      "filters": {},
+      "bag": "Bandwidth",
+      "id": "Identity",
+      "maxFrameSize": "Max Frame Size",
+      "vlLink": "Vl Name"
+    }
+  },
+
+  "DA": {
+    "files": {
+      "sid": "KAHT.IDS21.14.021-12 Д(С) SID ФПО DA.xlsx",
+      "pdt": "Port_Definition_Table_DA_11C.xls"
+    },
+
+    "sheets": {
+      "messages": {
+        "file": "sid",
+        "name": "AFDX Message Definition",
+        "headerRowNumber": 9
+      },
+      "vls": {
+        "file": "sid",
+        "name": "AFDX VL Definition",
+        "headerRowNumber": 11
+      },
+      "ports": {
+        "file": "pdt",
+        "name": "Определение API портов",
+        "headerRowNumber": 6
+      }
+    },
+
+    "ports": {
+      "sheet": "ports",
+      "posColumn": "Connected to Equipment",
+      "filters": {
+        "Interface type": "AFDX"
+      },
+      "isOutput": {
+        "column": "I/O",
+        "value": "O"
+      },
+      "isInput": {
+        "column": "I/O",
+        "value": "I"
+      },
+      "portName": "Port Name",
+      "maxPayloadSize": "Port Size",
+      "vlLink": "Connected to interface",
+      "portType": "Port Mode",
+      "portQueueSize": "Fifo size",
+      "extra": {
+        "sheet": "messages",
+        "mapping": {
+          "Connected to interface": "VL Name",
+          "Port Size": "Size"
+        },
+        "columns": ["IP", "UDP", "dest IP", "Dest UDP"]
+      },
+      "ipSourceAddress": "IP",
+      "udpSourcePort": "UDP",
+      "ipDestinationAddress": "dest IP",
+      "udpDestinationPort": "Dest UDP"
     },
 
     "vls": {
@@ -158,35 +160,36 @@
     },
 
     "ports": {
-      "sheet": "messages",
-      "posColumn": "Equipment",
-      "filters": {},
-      "isOutput": {
-        "column": "I/0",
-        "value": "O"
-      },
-      "isInput": {
-        "column": "I/0",
-        "value": "I"
-      },
-      "ipSourceAddress": "IP",
-      "udpSourcePort": "UDP",
-      "ipDestinationAddress": "dest IP",
-      "udpDestinationPort": "Dest UDP",
-      "maxPayloadSize": "Size",
-      "vlLink": "VL Name"
-    },
-
-    "portTypes": {
       "sheet": "ports",
       "posColumn": "Connected to Equipment",
       "filters": {
         "Interface type": "AFDX"
       },
+      "isOutput": {
+        "column": "I/O",
+        "value": "O"
+      },
+      "isInput": {
+        "column": "I/O",
+        "value": "I"
+      },
+      "portName": "Port Name",
+      "maxPayloadSize": "Port Size",
+      "vlLink": "Connected to interface",
       "portType": "Port Mode",
-      "portSize": "Port Size",
-      "portQueue": "Fifo size",
-      "vlLink": "Connected to interface"
+      "portQueueSize": "Fifo size",
+      "extra": {
+        "sheet": "messages",
+        "mapping": {
+          "Connected to interface": "VL Name",
+          "Port Size": "Size"
+        },
+        "columns": ["IP", "UDP", "dest IP", "Dest UDP"]
+      },
+      "ipSourceAddress": "IP",
+      "udpSourcePort": "UDP",
+      "ipDestinationAddress": "dest IP",
+      "udpDestinationPort": "Dest UDP"
     },
 
     "vls": {
@@ -225,35 +228,36 @@
     },
 
     "ports": {
-      "sheet": "messages",
-      "posColumn": "Equipment",
-      "filters": {},
-      "isOutput": {
-        "column": "I/0",
-        "value": "O"
-      },
-      "isInput": {
-        "column": "I/0",
-        "value": "I"
-      },
-      "ipSourceAddress": "IP",
-      "udpSourcePort": "UDP",
-      "ipDestinationAddress": "dest IP",
-      "udpDestinationPort": "Dest UDP",
-      "maxPayloadSize": "Size",
-      "vlLink": "VL Name"
-    },
-
-    "portTypes": {
       "sheet": "ports",
       "posColumn": "Connected to Equipment",
       "filters": {
         "Interface type": "AFDX"
       },
+      "isOutput": {
+        "column": "I/O",
+        "value": "O"
+      },
+      "isInput": {
+        "column": "I/O",
+        "value": "I"
+      },
+      "portName": "Port Name",
+      "maxPayloadSize": "Port Size",
+      "vlLink": "Connected to interface",
       "portType": "Port Mode",
-      "portSize": "Port Size",
-      "portQueue": "Fifo size",
-      "vlLink": "Connected to interface"
+      "portQueueSize": "Fifo size",
+      "extra": {
+        "sheet": "messages",
+        "mapping": {
+          "Connected to interface": "VL Name",
+          "Port Size": "Size"
+        },
+        "columns": ["IP", "UDP", "dest IP", "Dest UDP"]
+      },
+      "ipSourceAddress": "IP",
+      "udpSourcePort": "UDP",
+      "ipDestinationAddress": "dest IP",
+      "udpDestinationPort": "Dest UDP"
     },
 
     "vls": {
@@ -265,5 +269,5 @@
       "maxFrameSize": "Max Frame Size",
       "vlLink": "Vl Name"
     }
-  }
+  } 
 }
