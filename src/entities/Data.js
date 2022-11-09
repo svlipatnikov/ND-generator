@@ -108,7 +108,7 @@ class Data {
       header = [...header, ...extraColumns]
       rows = rows.map((row) => {
         const extraRow = extraRows.find((eRow) =>
-          Object.entries(mapping).every(([col, eCol]) => row[header.indexOf(col)] === eRow[extraHeader.indexOf(eCol)])
+          Object.entries(mapping).every(([col, eCol]) => row[header.indexOf(col)].toString() === eRow[extraHeader.indexOf(eCol).toString()])
         )
         if (!extraRow) return row
         const extraValues = extraColumnIndexes.map((index) => extraRow[index])
@@ -118,32 +118,6 @@ class Data {
 
     return { rows, header }
   }
-
-  // getAppPortTypesHash({ position, application }) {
-  //   try {
-  //     const config = this.config.getAppPortTypesCfg(application)
-  //     const portTypesData = this.getAppDataByCfg({ position, application, config })
-
-  //     return portTypesData.rows.reduce((hash, row) => {
-  //       const vlLinkIndex = portTypesData.header.indexOf(config.vlLink)
-  //       const vlLink = row[vlLinkIndex]
-  //       const portSizeIndex = portTypesData.header.indexOf(config.portSize)
-  //       const portSize = row[portSizeIndex]
-  //       const portTypeIndex = portTypesData.header.indexOf(config.portType)
-  //       const portType = row[portTypeIndex]
-  //       const queueIndex = portTypesData.header.indexOf(config.portQueue)
-  //       const queueSize = row[queueIndex] || 0
-
-  //       if (!hash[vlLink]) hash[vlLink] = {}
-  //       hash[vlLink][portSize] = { type: portType, queue: queueSize }
-
-  //       return hash
-  //     }, {})
-  //   } catch (err) {
-  //     console.log('ERROR in getAppPortTypesHash: ', position, application, ' => Will be used default port types values!')
-  //     return null
-  //   }
-  // }
 
   getMesSizeHash(posCode) {
     const posName = this.config.buildConfig.positions[posCode]
