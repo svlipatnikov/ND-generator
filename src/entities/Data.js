@@ -73,48 +73,50 @@ class Data {
   }
 
   getAppDataByCfg({ position, application, config }) {
-    const { sheet, filters, posColumn } = config
+    const { sheet, filters, posColumn, extra } = config
 
-    const { header, data } = this.getAppSheet(application, sheet)
+    let { header, data } = this.getAppSheet(application, sheet)
     let rows = [...data]
 
     // filter rows by position
-    const posColumnIndex = header.findIndex((h) => h === posColumn)
-    if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
+    // object = array of strings
+    if (typeof posColumn === 'object') {
+      rows = rows.filter((r) =>
+        posColumn.some((posTitle) => {
+          const posTitleIndex = header.indexOf(posTitle)
+          return r[posTitleIndex] === position
+        })
+      )
+    }
+    if (typeof posColumn === 'string') {
+      const posColumnIndex = header.indexOf(posColumn)
+      if (posColumnIndex !== -1) rows = rows.filter((r) => r[posColumnIndex] === position)
+    }
 
     // filter rows by custom filters
     Object.entries(filters || {}).forEach(([column, value]) => {
-      const columnIndex = header.findIndex((h) => h === column)
+      const columnIndex = header.indexOf(column)
       rows = rows.filter((r) => r[columnIndex] === value)
     })
 
-    return { rows, header }
-  }
+    // add extra columns from other sheet
+    if (extra) {
+      const { sheet: extraSheet, mapping, columns: extraColumns } = extra
+      const { data: extraRows, header: extraHeader } = this.getAppSheet(application, extraSheet)
+      const extraColumnIndexes = extraColumns.map((eCol) => extraHeader.indexOf(eCol))
 
-  getAppPortTypesHash({ position, application }) {
-    try {
-      const config = this.config.getAppPortTypesCfg(application)
-      const portTypesData = this.getAppDataByCfg({ position, application, config })
-
-      return portTypesData.rows.reduce((hash, row) => {
-        const vlLinkIndex = portTypesData.header.indexOf(config.vlLink)
-        const vlLink = row[vlLinkIndex]
-        const portSizeIndex = portTypesData.header.indexOf(config.portSize)
-        const portSize = row[portSizeIndex]
-        const portTypeIndex = portTypesData.header.indexOf(config.portType)
-        const portType = row[portTypeIndex]
-        const queueIndex = portTypesData.header.indexOf(config.portQueue)
-        const queueSize = row[queueIndex] || 0
-
-        if (!hash[vlLink]) hash[vlLink] = {}
-        hash[vlLink][portSize] = { type: portType, queue: queueSize }
-
-        return hash
-      }, {})
-    } catch (err) {
-      console.log('ERROR in getAppPortTypesHash: ', position, application, ' => Will be used default port types values!')
-      return null
+      header = [...header, ...extraColumns]
+      rows = rows.map((row) => {
+        const extraRow = extraRows.find((eRow) =>
+          Object.entries(mapping).every(([col, eCol]) => row[header.indexOf(col)].toString() === eRow[extraHeader.indexOf(eCol).toString()])
+        )
+        if (!extraRow) return row
+        const extraValues = extraColumnIndexes.map((index) => extraRow[index])
+        return [...row, ...extraValues]
+      })
     }
+
+    return { rows, header }
   }
 
   getMesSizeHash(posCode) {

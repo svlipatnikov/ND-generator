@@ -1,41 +1,57 @@
 {
   "ИМ": {
     "files": {
-      "vls_msg": "ICD VLs & Msg DU1-5 10.08.2022 (УКБП)_lip.xlsx"
+      "vls": "ICD VLs MDU 1-5 08.09.2022 (ВВВ)++.xlsx",
+      "msg": "ICD Msg MDU 1-5 08.09.2022 (ВВВ)++.xlsx",
+      "pdt": "PDT_SSJ_NEW (11.11.22).xls"
     },
 
     "sheets": {
       "afdx": {
-        "file": "vls_msg",
+        "file": "vls",
         "name": "Лист1",
         "headerRowNumber": 1
+      },
+      "apiPorts": {
+        "file": "pdt",
+        "name": "Определение API портов",
+        "headerRowNumber": 5
       }
     },
 
     "ports": {
-      "sheet": "afdx",
-      "posColumn": "Индикатор",
-      "filters": {},
+      "sheet": "apiPorts",
+      "posColumn": "Connected to Equipment",
+      "filters": {
+        "Interface type": "AFDX"
+      },
       "isOutput": {
-        "column": "Приложение источник",
-        "value": "ИМ"
+        "I/O": "O"
       },
       "isInput": {
-        "column": "Приложение приемник",
-        "value": "ИМ"
+        "I/O": "I"
+      },
+      "portName": "Port Name",
+      "extra": {
+        "sheet": "afdx",
+        "mapping": {
+          "Connected to interface": "Название сообщения"
+        },
+        "columns": ["IP Источника", "UDP источника", "IP Приемника", "UDP приемника", "Port Mode", "Fifo size", "VL ID"]
       },
       "ipSourceAddress": "IP Источника",
       "udpSourcePort": "UDP источника",
       "ipDestinationAddress": "IP Приемника",
       "udpDestinationPort": "UDP приемника",
-      "maxPayloadSize": "Максимальный размер сообщения, байт",
-      "vlLink": "VL ID",
-      "portName": "Наименование порта"
+      "maxPayloadSize": "Port Size",
+      "portType": "Port Mode",
+      "portQueueSize": "Fifo size",
+      "vlLink": "VL ID"
     },
 
     "vls": {
       "sheet": "afdx",
-      "posColumn": "Индикатор",
+      "posColumn": ["Оборудование приемник", "Оборудование источник"],
       "filters": {},
       "bag": "BAG",
       "id": "VL ID",

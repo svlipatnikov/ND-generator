@@ -61,7 +61,7 @@ class Config {
         if (!dataDir.includes(appCode)) throw new Error(`App ${appCode} folder not found in ./data`)
       })
       // Проверка наличия данных для приложений в конфиге
-      this.appCodes.forEach((appCode) => {
+      this.applications.forEach((appCode) => {
         if (!this.appsConfig[appCode]) throw new Error(`App ${appCode} not found in ./config/apps.json`)
       })
     } catch (err) {
@@ -79,11 +79,11 @@ class Config {
   }
 
   getPosNum(position) {
-    return this.positions.findIndex((p) => p === position) + 1
+    return this.positions.indexOf(position) + 1
   }
 
   getMac(deviceName, position) {
-    const index = this.positions.findIndex((p) => p === position)
+    const index = this.positions.indexOf(position)
     return this.buildConfig.macInterface[deviceName][index]
   }
 

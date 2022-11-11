@@ -48,8 +48,8 @@ class NetworkDescription extends Element {
             const vlLink = dataPortElement.vlLink
             if (dataPortElement.io === direction) {
               const portLinkInfo = { device, partition, dataPort }
-              if (hash[vlLink]) hash[vlLink].push(portLinkInfo)
-              else hash[vlLink] = [portLinkInfo]
+              if (!hash[vlLink]) hash[vlLink] = []
+              hash[vlLink].push(portLinkInfo)
             }
           })
         })
