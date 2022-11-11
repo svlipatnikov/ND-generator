@@ -37,7 +37,7 @@ const createDataPort = ({
   udpSourcePort,
   udpDestinationPort,
   ipDestinationAddress,
-  MIRROR,
+  // MIRROR,
   portType,
   portQueueSize,
 }) => {
@@ -69,10 +69,16 @@ const createDataPort = ({
       ipDestinationAddress,
     })
 
+    // WARNING - приводит к ошибке инициализации конфигурации если есть фрагментация
+    // удалено 11/11/2022
     // all output ports for network - sampling
-    const isOutputNetworkPort = MIRROR && dataPortIO === 'O'
-    const portMode = isOutputNetworkPort ? SAMPLING : portType || config.defaultDataPortType
-    const portFifo = isOutputNetworkPort ? 1 : portQueueSize || config.defaultDataPortSize
+    // const isOutputNetworkPort = MIRROR && dataPortIO === 'O'
+    // const portMode = isOutputNetworkPort ? SAMPLING : portType || config.defaultDataPortType
+    // const portFifo = isOutputNetworkPort ? 1 : portQueueSize || config.defaultDataPortSize
+
+    const portMode = portType || config.defaultDataPortType
+    const portFifo = portQueueSize || config.defaultDataPortSize
+
     const buffer = createBuffer(portMode, portFifo)
     dataPort.addChild(buffer)
 

@@ -1,11 +1,10 @@
 const Device = require('../entities/Device')
 const { getCellValue } = require('../helpers')
-const { createDeviceTarget, TARGET, FREGAT, SWITCH } = require('../entities/DeviceTarget')
+const { createDeviceTarget, FREGAT, SWITCH } = require('../entities/DeviceTarget')
 const { createHostInterface } = require('../entities/HostInterface')
 const { createMacInterface } = require('../entities/MacInterface')
 const { createPartition } = require('../entities/Partition')
 const { createDataPort } = require('../entities/DataPort')
-const { createBuffer, SAMPLING } = require('../entities/Buffer')
 const config = require('../entities/Config')
 const data = require('../entities/Data')
 const { genPorts } = require('./genPorts')
@@ -81,7 +80,6 @@ const createDeviceES = (deviceName, position) => {
         udpSourcePort,
         udpDestinationPort,
         ipDestinationAddress,
-        MIRROR,
         portType,
         portQueueSize,
       })
