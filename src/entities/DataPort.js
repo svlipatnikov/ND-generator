@@ -1,6 +1,7 @@
 const { stringifyParams } = require('../helpers')
 const { createBuffer, SAMPLING } = require('./Buffer')
 const Element = require('./Element')
+const config = require('../entities/Config')
 
 class DataPort extends Element {
   constructor(name) {
@@ -37,7 +38,6 @@ const createDataPort = ({
   udpSourcePort,
   udpDestinationPort,
   ipDestinationAddress,
-  // MIRROR,
   portType,
   portQueueSize,
 }) => {
@@ -51,8 +51,7 @@ const createDataPort = ({
       !udpSourcePort ||
       !udpDestinationPort ||
       !ipDestinationAddress ||
-      !portType ||
-      !portQueueSize
+      !portType
     ) {
       throw new Error('DATA PORT NOT CREATED:')
     }

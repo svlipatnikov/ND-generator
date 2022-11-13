@@ -39,9 +39,13 @@ const createDeviceES = (deviceName, position) => {
 
     rows.forEach((row) => {
       const [outputColumn, outputValue] = Object.entries(portsConfig.isOutput)[0]
-      const isOutput = getCellValue({ row, header, name: outputColumn }) === outputValue
+      const output = outputValue === '#pos' ? position : outputValue
+      const isOutput = getCellValue({ row, header, name: outputColumn }) === output
+
       const [inputColumn, inputValue] = Object.entries(portsConfig.isInput)[0]
-      const isInput = getCellValue({ row, header, name: inputColumn }) === inputValue
+      const input = inputValue === '#pos' ? position : inputValue
+      const isInput = getCellValue({ row, header, name: inputColumn }) === input
+
       const ipSourceAddress = getCellValue({ row, header, name: portsConfig.ipSourceAddress })
       const udpSourcePort = getCellValue({ row, header, name: portsConfig.udpSourcePort })
       const ipDestinationAddress = getCellValue({ row, header, name: portsConfig.ipDestinationAddress })
@@ -82,6 +86,7 @@ const createDeviceES = (deviceName, position) => {
         ipDestinationAddress,
         portType,
         portQueueSize,
+        MIRROR,
       })
 
       if (dataPort) {

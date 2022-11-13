@@ -1,0 +1,46 @@
+{
+  "ИМ": {
+    "files": {
+      "vls_msg": "ICD VLs & Msg DU1-5 10.08.2022 (УКБП)_lip.xlsx"
+    },
+
+    "sheets": {
+      "afdx": {
+        "file": "vls_msg",
+        "name": "Лист1",
+        "headerRowNumber": 1
+      }
+    },
+
+    "ports": {
+      "sheet": "afdx",
+      "posColumn": ["Оборудование приемник", "Оборудование источник"],
+      "filters": {},
+      "isOutput": {
+        "Оборудование источник": "#pos"
+      },
+      "isInput": {
+        "Оборудование приемник": "#pos"
+      },
+      "portName": "Наименование порта",
+      "ipSourceAddress": "IP Источника",
+      "udpSourcePort": "UDP источника",
+      "ipDestinationAddress": "IP Приемника",
+      "udpDestinationPort": "UDP приемника",
+      "maxPayloadSize": "Максимальный размер сообщения, байт",
+      "portType": "Тип порта приемника",
+      "--portQueueSize": "Fifo size",
+      "vlLink": "VL ID"
+    },
+
+    "vls": {
+      "sheet": "afdx",
+      "posColumn": ["Оборудование приемник", "Оборудование источник"],
+      "filters": {},
+      "bag": "BAG",
+      "id": "VL ID",
+      "maxFrameSize": "Максимальный размер фрейма",
+      "vlLink": "VL ID"
+    }
+  }
+}
