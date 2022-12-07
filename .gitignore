@@ -14,3 +14,6 @@
 **/.DS_Store
 .DU_Store
 .tmp*
+
+/config/apps.json
+/config/build.json
