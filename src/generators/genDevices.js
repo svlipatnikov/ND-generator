@@ -113,7 +113,7 @@ const createDevices = (position) => {
   return {
     deviceSwitch1: createDeviceSwitch('Switch1'),
     deviceSwitch2: createDeviceSwitch('Switch2'),
-    deviceMDU: createDeviceES('MDU', position),
+    deviceMDU: createDeviceES('TARGET', position),
     deviceNetwork: createDeviceES('NETWORK', position),
   }
 }

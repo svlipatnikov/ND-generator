@@ -35,14 +35,14 @@ const genFlows = (position, networkDescription) => {
           if (!vlInputPorts || !vlOutputPorts) throw new Error(`vlid: ${vlid}. Ports not found in hash table`)
           if (flowNamesSet.has(name)) return
 
-          const isLoopVl = vlInputPorts.some(({ device }) => device === 'MDU') && vlOutputPorts.some(({ device }) => device === 'MDU')
+          const isLoopVl = vlInputPorts.some(({ device }) => device === 'TARGET') && vlOutputPorts.some(({ device }) => device === 'TARGET')
 
           const filteredVlOutputPorts = vlOutputPorts
-            .filter((p) => !isLoopVl || p.device === 'MDU') // no need ports on network device if loop
+            .filter((p) => !isLoopVl || p.device === 'TARGET') // no need ports on network device if loop
             .filter((p) => p.device === vlOutputPorts[0].device && p.partition === vlOutputPorts[0].partition) // only one app can send to vl
 
           const filteredVlInputPorts = vlInputPorts
-            .filter((p) => !isLoopVl || p.device === 'MDU') // no need ports on network device if loop
+            .filter((p) => !isLoopVl || p.device === 'TARGET') // no need ports on network device if loop
             .filter((p) => p.device === vlInputPorts[0].device && p.partition === vlInputPorts[0].partition) // for vl receivers on the same device need one input port
 
           if (!filteredVlOutputPorts.length || !filteredVlOutputPorts.length) throw new Error(`NOT FOUND PORTS FRO VLID ${vlid}`)
