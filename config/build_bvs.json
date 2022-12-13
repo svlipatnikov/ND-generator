@@ -1,0 +1,28 @@
+{
+  "applications": {
+    "BVS": "БВС"
+  },
+  "positions": {
+    "BVS1": "БВС №1",
+    "BVS2": "БВС №2",
+    "BVS3": "БВС №3",
+    "BVS4": "БВС №4"
+  },
+  "targetDevice": {
+    "TARGET": "TARGET",
+    "NETWORK": "FREGAT"
+  },
+  "macInterface": {
+    "TARGET": ["02:00:00:04:21:20", "02:00:00:04:41:20", "02:00:00:04:61:20", "02:00:00:04:81:20"],
+    "NETWORK": ["02:00:00:04:22:20", "02:00:00:04:42:20", "02:00:00:04:62:20", "02:00:00:04:83:20"]
+  },
+  "marker": "03:00:00:00",
+  "networkSourceIp": "10.4.34.19",
+  "defaults": {
+    "dataPortType": "Queuing",
+    "dataPortSize": 10,
+    "jitter": "5 ms"
+  },
+  "dataPath": "./DATA",
+  "outPath": "./ND_GEN_DATA"
+}

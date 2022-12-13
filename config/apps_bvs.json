@@ -1,8 +1,7 @@
 ﻿{
-  "ИМ": {
+  "БВС": {
     "files": {
       "vls": "ICD VLs BVS (MFPOPKR).xlsx",
-      "msg": "ICD Msg BVS (MFPOPKR).xlsx",
       "pdt": "PDT_SSJ_NEW (MFPOPKR).xls"
     },
 
