@@ -1,0 +1,62 @@
+﻿{
+  "ИМ": {
+    "files": {
+      "vls": "ICD VLs BVS (MFPOPKR).xlsx",
+      "msg": "ICD Msg BVS (MFPOPKR).xlsx",
+      "pdt": "PDT_SSJ_NEW (MFPOPKR).xls"
+    },
+
+    "sheets": {
+      "afdx": {
+        "file": "vls",
+        "name": "Лист1",
+        "headerRowNumber": 1
+      },
+      "apiPorts": {
+        "file": "pdt",
+        "name": "Определение API портов",
+        "headerRowNumber": 5
+      }
+    },
+
+    "ports": {
+      "sheet": "apiPorts",
+      "posColumn": "Connected to Equipment",
+      "filters": {
+        "Interface type": "AFDX"
+      },
+      "isOutput": {
+        "I/O": "O"
+      },
+      "isInput": {
+        "I/O": "I"
+      },
+      "portName": "Port Name",
+      "extra": {
+        "sheet": "afdx",
+        "mapping": {
+          "Connected to interface": "Название сообщения"
+        },
+        "columns": ["IP Источника", "UDP источника", "IP Приемника", "UDP приемника", "Port Mode", "Fifo size", "VL ID"]
+      },
+      "ipSourceAddress": "IP Источника",
+      "udpSourcePort": "UDP источника",
+      "ipDestinationAddress": "IP Приемника",
+      "udpDestinationPort": "UDP приемника",
+      "maxPayloadSize": "Port Size",
+      "portType": "Port Mode",
+      "portQueueSize": "Fifo size",
+      "vlLink": "VL ID"
+    },
+
+    "vls": {
+      "sheet": "afdx",
+      "posColumn": ["Оборудование приемник", "Оборудование источник"],
+      "filters": {},
+      "bag": "BAG",
+      "id": "VL ID",
+      "maxFrameSize": "Максимальный размер фрейма",
+      "vlLink": "VL ID"
+    }
+  }
+}
