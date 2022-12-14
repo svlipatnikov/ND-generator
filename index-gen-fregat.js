@@ -26,7 +26,11 @@ if (!positions.length) {
   return
 }
 
-clearDir(`./${FREGAT_DATA_FOLDER}`)
+if (fs.readdirSync('.').includes(FREGAT_DATA_FOLDER)) {
+  clearDir(`./${FREGAT_DATA_FOLDER}`)
+} else {
+  fs.mkdirSync(`./${FREGAT_DATA_FOLDER}`)
+}
 
 positions.forEach((posCode) => {
   console.log(`Gen Mes_Size & Mes_Size_out for ${posCode}`)

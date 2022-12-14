@@ -37,6 +37,8 @@ const createDeviceES = (deviceName, position) => {
     const portsConfig = config.getAppPortsCfg(application)
     const { rows, header } = data.getAppDataByCfg({ position, application, config: portsConfig })
 
+    if (!rows?.length) throw new Error(`Ports not found for application "${application}"`)
+
     rows.forEach((row) => {
       const [outputColumn, outputValue] = Object.entries(portsConfig.isOutput)[0]
       const output = outputValue === '#pos' ? position : outputValue

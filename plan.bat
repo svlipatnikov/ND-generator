@@ -1,5 +1,8 @@
 SET POS_CODE=%1
+
 SET TTE_PLAN="C:\TTTech\TTE\TTE-Plan\5.2.0000\CLInterface\TTEPlan.exe"
+
+REM SET TTE_PLAN=d:\TTTech_52\TTE\TTE-Plan\5.2.0000\CLInterface\TTEPlan.exe"
 
 IF NOT EXIST TTE_DATA (
   MKDIR TTE_DATA

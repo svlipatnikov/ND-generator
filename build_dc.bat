@@ -1,5 +1,8 @@
 SET POS_CODE=%1
+
 SET TTE_BUILD="C:\TTTech\TTE\TTE-Build\5.2.5\TTEbuild_batch.exe"
+
+REM SET TTE_BUILD=d:\TTTech_52\TTE\TTE-Build\5.2.5\TTEbuild_batch.exe"
 
 CD TTE_DATA\CONFIG_%POS_CODE%
 

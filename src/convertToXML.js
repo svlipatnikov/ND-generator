@@ -2,7 +2,7 @@ const { saveFile } = require('./helpers')
 const convert = require('xml-js')
 
 module.exports.convertToXML = ({ nd, positionCode, path }) => {
-  console.log(`Convert to XML (${positionCode})`)
+  console.log(`Convert to XML (${positionCode})...`)
 
   // convert nd-js to nd-xml
   const nd_xml = convert.js2xml(nd, {

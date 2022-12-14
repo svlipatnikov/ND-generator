@@ -1,4 +1,4 @@
-RMDIR /S /Q delivery
+RMDIR /S /Q DELIVERY
 
 node index-gen-nd.js
 
