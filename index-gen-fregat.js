@@ -1,11 +1,11 @@
+console.log('')
+console.log('===== START gen-fregat =====')
+
 const fs = require('fs')
 const { getFileName, decodeVl2PortsFile, clearDir } = require('./src/helpers')
-const config = require('./src/entities/Config')
 const data = require('./src/entities/Data')
 
-console.log('===============')
-console.log('START gen-fregat')
-console.log('')
+// const buildConfig = require('./Config')
 
 const FREGAT_DATA_FOLDER = 'FREGAT_DATA'
 const DELIVERY_FOLDER = 'DELIVERY'
@@ -56,6 +56,5 @@ positions.forEach((posCode) => {
   fs.writeFileSync(`${posDir}/${posCode}_Mes_Size.txt`, outMesSizeFile)
 })
 
+console.log('===== END gen-fregat =====')
 console.log('')
-console.log('END gen-fregat')
-console.log('===============')

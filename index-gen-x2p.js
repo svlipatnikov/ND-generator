@@ -1,10 +1,9 @@
+console.log('')
+console.log('===== START gen-x2p-app =====')
+
 const fs = require('fs')
 const { getFileName, decodeHFile, getPortsArr } = require('./src/helpers')
 const data = require('./src/entities/Data')
-
-console.log('===============')
-console.log('START gen-x2p-app')
-console.log('')
 
 const DELIVERY_FOLDER = 'DELIVERY'
 const X2P_FILE_NAME = 'vl2ports.utst'
@@ -44,6 +43,5 @@ positions.forEach((pos) => {
   fs.writeFileSync(`${posDir}/${X2P_FILE_NAME}`, x2pArr.join(''))
 })
 
+console.log('===== END gen-x2p-app =====')
 console.log('')
-console.log('END gen-x2p-app')
-console.log('===============')
